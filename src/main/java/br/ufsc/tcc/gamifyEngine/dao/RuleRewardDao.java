@@ -7,13 +7,13 @@ import br.ufsc.tcc.gamifyEngine.model.Rule;
 import br.ufsc.tcc.gamifyEngine.model.RuleReward;
 
 @Transactional
-public interface RuleDao extends CrudRepository<Rule, Long> {
+public interface RuleRewardDao extends CrudRepository<Rule, Long> {
 
   /**
    * This method will find an User instance in the database by its email.
    * Note that this method is not implemented and its working code will be
    * automagically generated from its signature by Spring Data JPA.
    */
-  public Rule findById(long ruleId);
+  public RuleReward findById(long ruleId);
 
 }

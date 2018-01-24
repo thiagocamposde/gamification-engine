@@ -23,4 +23,10 @@ public class UserServiceImpl implements UserService {
 	public Iterable<User> findAllUsers() {
 		return userDao.findAll();
 	}
+
+	@Override
+	public User saveUser(User user) {
+		// TODO Auto-generated method stub
+		return userDao.save(user);
+	}
 }
