@@ -63,23 +63,32 @@ public class RestApiController {
 	{	
 		Rule rule = ruleService.getRule(ruleId);
 		User user = userService.getUser(userId);
+		String ruleType = rule.getType();
 		
-		System.out.println(rule);
-		System.out.println(user);
+		user.setXp(user.getXp() + rule.getXp());
 		
-		System.out.println(rule.getType());
-		User userUpdated = null;
+        switch (ruleType) {
+            case "numericReward":
+            	RuleReward numericRewardRule = ruleService.getRuleReward(ruleId);
+                break;
+            case "badge": 
+                break;
+            case "level": 
+                break;
+            default: 
+                break;
+        }
+        
+        User userUpdated = userService.saveUser(user);
 		
-		if(rule.getType().equals("reward")) {
-//			RuleReward ruleReward = ruleService.getRuleReward(ruleId);
-			//se for reward, veficar o tipo e adicionar o amount no user
-			//verificar se existem regras relacionadas as rewards
-			//repetir o processo
-			
-			user.setXp(user.getXp() + rule.getXp());
-			userUpdated = userService.saveUser(user);
-			
-		}
+//			//se for reward, veficar o tipo e adicionar o amount no user
+//			//verificar se existem regras relacionadas as rewards
+//			//repetir o processo
+//			
+//			user.setXp(user.getXp() + rule.getXp());
+//			userUpdated = userService.saveUser(user);
+//			
+//		}
 		
 		if(userUpdated == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

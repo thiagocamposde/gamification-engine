@@ -24,4 +24,7 @@ public class RuleReward {
 	
 	@NotNull
 	private int amount;
+	
+	@NotNull
+	private int timesCompleted;
 }
