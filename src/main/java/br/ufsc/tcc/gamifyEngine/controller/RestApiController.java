@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.ufsc.tcc.gamifyEngine.model.Attribute;
 import br.ufsc.tcc.gamifyEngine.model.Rule;
-import br.ufsc.tcc.gamifyEngine.model.RuleReward;
+import br.ufsc.tcc.gamifyEngine.model.RuleAttribute;
 import br.ufsc.tcc.gamifyEngine.model.User;
+import br.ufsc.tcc.gamifyEngine.service.AttributeService;
 import br.ufsc.tcc.gamifyEngine.service.RuleService;
 import br.ufsc.tcc.gamifyEngine.service.UserService;
 
@@ -26,6 +28,9 @@ public class RestApiController {
 	
 	@Autowired
 	RuleService ruleService;
+	
+	@Autowired
+	AttributeService attributeService;
 		
 	@RequestMapping(value = "/user/", method = RequestMethod.GET)	
 	public ResponseEntity<?> listAllUsers()
@@ -47,8 +52,10 @@ public class RestApiController {
 		return new ResponseEntity<>(usersList, HttpStatus.OK);
 	}
 	
+	
+	
 	@RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)	
-	public ResponseEntity<?> getUser(@PathVariable long userId)
+	public ResponseEntity<?> getUser(@PathVariable int userId)
 	{	
 		User user = userService.getUser(userId);
 		
@@ -58,8 +65,41 @@ public class RestApiController {
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/rule/{ruleId}", method = RequestMethod.GET)	
+	public ResponseEntity<?> getRule(@PathVariable int ruleId)
+	{	
+		Rule rule = ruleService.getRule(ruleId);
+		
+		if(rule == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(rule, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/rule-attribute/{ruleAttributeId}", method = RequestMethod.GET)	
+	public ResponseEntity<?> getRuleAttribute(@PathVariable int ruleAttributeId)
+	{	
+		RuleAttribute ruleAtt = ruleService.getRuleAttribute(ruleAttributeId);
+		
+		if(ruleAtt == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(ruleAtt, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/attribute/{attributeId}", method = RequestMethod.GET)	
+	public ResponseEntity<?> getAttribute(@PathVariable int attributeId)
+	{	
+		Attribute att = attributeService.getAttribute(attributeId);
+		
+		if(att == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(att, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/event-rule/{ruleId}/{userId}", method = RequestMethod.GET)	
-	public ResponseEntity<?> processEvent(@PathVariable long ruleId, @PathVariable long userId)
+	public ResponseEntity<?> processEvent(@PathVariable int ruleId, @PathVariable int userId)
 	{	
 		Rule rule = ruleService.getRule(ruleId);
 		User user = userService.getUser(userId);
@@ -69,7 +109,7 @@ public class RestApiController {
 		
         switch (ruleType) {
             case "numericReward":
-            	RuleReward numericRewardRule = ruleService.getRuleReward(ruleId);
+//            	RuleAttribute numericRewardRule = ruleService.getRuleReward(ruleId);
                 break;
             case "badge": 
                 break;

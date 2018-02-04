@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 public class Rule {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private int id;
 	
 	@NotNull
 	@Column(unique=true, nullable=false)
@@ -21,19 +21,24 @@ public class Rule {
 	private String type;
 	
 	@NotNull
-	private boolean active;
+	private int timesToComplete;
 	
 	@NotNull
-	private int timesToAquire;
-	
-	@NotNull
+	@Column(name="xp_reward")
 	private int xp;
+	
+	@NotNull
+	private boolean active;
 
+	public Rule() {
+
+	}
+	
 	public long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -61,12 +66,13 @@ public class Rule {
 		this.active = active;
 	}
 
-	public int getTimesToAquire() {
-		return timesToAquire;
+
+	public int getTimesToComplete() {
+		return timesToComplete;
 	}
 
-	public void setTimesToAquire(int timesToAquire) {
-		this.timesToAquire = timesToAquire;
+	public void setTimesToComplete(int timesToComplete) {
+		this.timesToComplete = timesToComplete;
 	}
 
 	public int getXp() {

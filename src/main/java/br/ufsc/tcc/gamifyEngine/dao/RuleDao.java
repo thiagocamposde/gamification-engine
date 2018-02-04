@@ -4,7 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.ufsc.tcc.gamifyEngine.model.Rule;
-import br.ufsc.tcc.gamifyEngine.model.RuleReward;
+import br.ufsc.tcc.gamifyEngine.model.RuleAttribute;
 
 @Transactional
 public interface RuleDao extends CrudRepository<Rule, Long> {
@@ -14,6 +14,6 @@ public interface RuleDao extends CrudRepository<Rule, Long> {
    * Note that this method is not implemented and its working code will be
    * automagically generated from its signature by Spring Data JPA.
    */
-  public Rule findById(long ruleId);
+  public Rule findById(int ruleId);
 
 }

@@ -1,9 +1,14 @@
 package br.ufsc.tcc.gamifyEngine.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -11,36 +16,56 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private int id;
 	
-	@NotNull
-	private String name;
 	private int xp;
 	
-	public User() {}
+	private int level;
 	
-	public User(long id) {
-		this.id = id;
+	@NotNull
+	private boolean active;
+	
+	@ManyToMany
+	@JoinTable(name="user_attributes", joinColumns={@JoinColumn(name="user_id")}, inverseJoinColumns={@JoinColumn(name="attribute_id")})
+	private List <Attribute> attributes;
+	
+	public List<Attribute> getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(List<Attribute> attributes) {
+		this.attributes = attributes;
+	}
+
+	public User() {
+		
 	}
 	
-	public User(String name) {
-		this.xp = 0;
-		this.name = name;
+	public User(int id) {
+		this.id = id;		
 	}
 	
-	public String getName() {
-		return name;
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public int getLevel() {
+		return level;
 	}
-	
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
 	public long getId() {
 		return id;
 	}
 	
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

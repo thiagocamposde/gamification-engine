@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.ufsc.tcc.gamifyEngine.dao.RuleDao;
-import br.ufsc.tcc.gamifyEngine.dao.RuleRewardDao;
+import br.ufsc.tcc.gamifyEngine.dao.RuleAttributeDao;
 import br.ufsc.tcc.gamifyEngine.model.Rule;
-import br.ufsc.tcc.gamifyEngine.model.RuleReward;
+import br.ufsc.tcc.gamifyEngine.model.RuleAttribute;
 
 @Service
 public class RuleServiceImpl implements RuleService{
@@ -15,14 +15,14 @@ public class RuleServiceImpl implements RuleService{
 	private RuleDao ruleDao;
 	
 	@Autowired
-	private RuleRewardDao ruleRewardDao;
+	private RuleAttributeDao ruleAttributeDao;
 	
 	public RuleServiceImpl() {
 			
 	}
 	
 	@Override
-	public Rule getRule(long ruleId) {
+	public Rule getRule(int ruleId) {
 		return ruleDao.findById(ruleId);
 	}
 
@@ -32,7 +32,12 @@ public class RuleServiceImpl implements RuleService{
 	}
 
 	@Override
-	public RuleReward getRuleReward(long ruleId) {
-		return ruleRewardDao.findById(ruleId);
+	public RuleAttribute getRuleAttribute(int ruleAttributeId) {
+		return ruleAttributeDao.findById(ruleAttributeId);
 	}
+
+//	@Override
+//	public RuleAttribute getRuleReward(int idRule) {
+//		return ruleAttributeDao.findByIdRule(idRule);
+//	}
 }
