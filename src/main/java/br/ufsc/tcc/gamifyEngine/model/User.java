@@ -9,7 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class User {
@@ -25,22 +28,35 @@ public class User {
 	@NotNull
 	private boolean active;
 	
-	@ManyToMany
-	@JoinTable(name="user_attributes", joinColumns={@JoinColumn(name="user_id")}, inverseJoinColumns={@JoinColumn(name="attribute_id")})
-	private List <Attribute> attributes;
+	@OneToMany(mappedBy = "user")
+	@JsonManagedReference 
+	private List <UserAttribute> attributes;
 	
-	public List<Attribute> getAttributes() {
+	
+	@JoinTable(name="user_badges", joinColumns = @JoinColumn(name = "user_id", referencedColumnName="id"), inverseJoinColumns = @JoinColumn(name = "badge_id", referencedColumnName="id" ))
+	@ManyToMany
+	private List <Badge> badges;
+	
+	public User() {
+			
+	}
+
+	public List<Badge> getBadges() {
+		return badges;
+	}
+
+	public void setBadges(List<Badge> badges) {
+		this.badges = badges;
+	}
+
+	public List<UserAttribute> getAttributes() {
 		return attributes;
 	}
 
-	public void setAttributes(List<Attribute> attributes) {
+	public void setAttributes(List<UserAttribute> attributes) {
 		this.attributes = attributes;
 	}
 
-	public User() {
-		
-	}
-	
 	public User(int id) {
 		this.id = id;		
 	}
@@ -61,7 +77,7 @@ public class User {
 		this.level = level;
 	}
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	

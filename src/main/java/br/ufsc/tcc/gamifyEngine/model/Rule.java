@@ -21,6 +21,7 @@ public class Rule {
 	private String type;
 	
 	@NotNull
+	@Column(name="times_to_complete")
 	private int timesToComplete;
 	
 	@NotNull

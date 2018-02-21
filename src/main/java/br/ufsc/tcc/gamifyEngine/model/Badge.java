@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Attribute {
+public class Badge {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,8 +18,8 @@ public class Attribute {
 	
 	private String description;
 	
-	public Attribute() {
-		// TODO Auto-generated constructor stub
+	public Badge() {	
+		
 	}
 	
 	public int getId() {

@@ -3,6 +3,7 @@ package br.ufsc.tcc.gamifyEngine.dao;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.ufsc.tcc.gamifyEngine.model.Rule;
 import br.ufsc.tcc.gamifyEngine.model.RuleAttribute;
 
 @Transactional
@@ -15,4 +16,5 @@ public interface RuleAttributeDao extends CrudRepository<RuleAttribute, Long> {
    */
 	
 	public RuleAttribute findById(int ruleAttributeId);
+	public RuleAttribute findByRule(Rule ruleId);
 }

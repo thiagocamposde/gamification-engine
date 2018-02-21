@@ -4,7 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.ufsc.tcc.gamifyEngine.model.Rule;
-import br.ufsc.tcc.gamifyEngine.model.RuleAttribute;
 
 @Transactional
 public interface RuleDao extends CrudRepository<Rule, Long> {

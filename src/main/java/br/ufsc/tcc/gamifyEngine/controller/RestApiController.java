@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufsc.tcc.gamifyEngine.model.Attribute;
+import br.ufsc.tcc.gamifyEngine.model.Badge;
 import br.ufsc.tcc.gamifyEngine.model.Rule;
 import br.ufsc.tcc.gamifyEngine.model.RuleAttribute;
+import br.ufsc.tcc.gamifyEngine.model.RuleBadge;
 import br.ufsc.tcc.gamifyEngine.model.User;
 import br.ufsc.tcc.gamifyEngine.service.AttributeService;
+import br.ufsc.tcc.gamifyEngine.service.BadgeService;
 import br.ufsc.tcc.gamifyEngine.service.RuleService;
 import br.ufsc.tcc.gamifyEngine.service.UserService;
 
@@ -31,6 +34,9 @@ public class RestApiController {
 	
 	@Autowired
 	AttributeService attributeService;
+	
+	@Autowired
+	BadgeService badgeService;
 		
 	@RequestMapping(value = "/user/", method = RequestMethod.GET)	
 	public ResponseEntity<?> listAllUsers()
@@ -51,8 +57,6 @@ public class RestApiController {
 		}
 		return new ResponseEntity<>(usersList, HttpStatus.OK);
 	}
-	
-	
 	
 	@RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)	
 	public ResponseEntity<?> getUser(@PathVariable int userId)
@@ -87,6 +91,17 @@ public class RestApiController {
 		return new ResponseEntity<>(ruleAtt, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/rule-badge/{ruleBadgeId}", method = RequestMethod.GET)	
+	public ResponseEntity<?> getRuleBadge(@PathVariable int ruleBadgeId)
+	{	
+		RuleBadge ruleBadge = ruleService.getRuleBadge(ruleBadgeId);
+		
+		if(ruleBadge == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(ruleBadge, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/attribute/{attributeId}", method = RequestMethod.GET)	
 	public ResponseEntity<?> getAttribute(@PathVariable int attributeId)
 	{	
@@ -98,6 +113,17 @@ public class RestApiController {
 		return new ResponseEntity<>(att, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/badge/{badgeId}", method = RequestMethod.GET)	
+	public ResponseEntity<?> getBadge(@PathVariable int badgeId)
+	{	
+		Badge badge = badgeService.getBadge(badgeId);
+		
+		if(badge == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(badge, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/event-rule/{ruleId}/{userId}", method = RequestMethod.GET)	
 	public ResponseEntity<?> processEvent(@PathVariable int ruleId, @PathVariable int userId)
 	{	
@@ -107,9 +133,20 @@ public class RestApiController {
 		
 		user.setXp(user.getXp() + rule.getXp());
 		
+		RuleAttribute ruleAttribute = null;
+		
         switch (ruleType) {
-            case "numericReward":
-//            	RuleAttribute numericRewardRule = ruleService.getRuleReward(ruleId);
+            case "attribute":
+            	Rule a = new Rule ();
+            	a.setId(1);
+            	ruleAttribute = ruleService.getRuleAttributeByRule(a);
+            	
+            	Object result = userService.getUserAttribute(user.getId(), ruleAttribute.getAttribute().getId());
+            	
+//            	List<Attribute> userAttributes = user.getAttributes();
+            	
+            	
+            	
                 break;
             case "badge": 
                 break;
@@ -134,6 +171,6 @@ public class RestApiController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
-		return new ResponseEntity<>(userUpdated, HttpStatus.OK);
+		return new ResponseEntity<>(ruleAttribute, HttpStatus.OK);
 	}
 }

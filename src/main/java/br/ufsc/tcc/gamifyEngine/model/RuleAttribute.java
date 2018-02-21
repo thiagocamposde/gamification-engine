@@ -1,12 +1,10 @@
 package br.ufsc.tcc.gamifyEngine.model;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -15,19 +13,11 @@ public class RuleAttribute {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@OneToOne
+	@ManyToOne
 	private Rule rule;
 	
-	@OneToOne
+	@ManyToOne
 	private Attribute attribute;
-
-	public Attribute getAttribute() {
-		return attribute;
-	}
-
-	public void setAttribute(Attribute attribute) {
-		this.attribute = attribute;
-	}
 
 	@NotNull
 	private boolean repeatable;
@@ -38,7 +28,15 @@ public class RuleAttribute {
 	public long getId() {
 		return id;
 	}
+	
+	public Attribute getAttribute() {
+		return attribute;
+	}
 
+	public void setAttribute(Attribute attribute) {
+		this.attribute = attribute;
+	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -66,5 +64,4 @@ public class RuleAttribute {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-
 }

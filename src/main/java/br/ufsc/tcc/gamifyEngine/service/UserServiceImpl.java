@@ -29,4 +29,11 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return userDao.save(user);
 	}
+
+	@Override
+	public Object getUserAttribute(int userId, int attributeId) {
+		
+		return this.userDao.getUserAttribute(userId, attributeId);
+	
+	}
 }
