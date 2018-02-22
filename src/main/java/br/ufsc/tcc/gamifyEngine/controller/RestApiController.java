@@ -16,6 +16,7 @@ import br.ufsc.tcc.gamifyEngine.model.Badge;
 import br.ufsc.tcc.gamifyEngine.model.Rule;
 import br.ufsc.tcc.gamifyEngine.model.RuleAttribute;
 import br.ufsc.tcc.gamifyEngine.model.RuleBadge;
+import br.ufsc.tcc.gamifyEngine.model.RuleLevel;
 import br.ufsc.tcc.gamifyEngine.model.User;
 import br.ufsc.tcc.gamifyEngine.service.AttributeService;
 import br.ufsc.tcc.gamifyEngine.service.BadgeService;
@@ -100,6 +101,17 @@ public class RestApiController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(ruleBadge, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/rule-level/{ruleLevelId}", method = RequestMethod.GET)	
+	public ResponseEntity<?> getRuleLevel(@PathVariable int ruleLevelId)
+	{	
+		RuleLevel ruleLevel = ruleService.getRuleLevel(ruleLevelId);
+		
+		if(ruleLevel == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(ruleLevel, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/attribute/{attributeId}", method = RequestMethod.GET)	
