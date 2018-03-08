@@ -1,5 +1,8 @@
 package br.ufsc.tcc.gamifyEngine.dao;
 
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -7,7 +10,7 @@ import br.ufsc.tcc.gamifyEngine.model.Rule;
 import br.ufsc.tcc.gamifyEngine.model.RuleAttribute;
 
 @Transactional
-public interface RuleAttributeDao extends CrudRepository<RuleAttribute, Long> {
+public interface RuleAttributeDao extends CrudRepository<RuleAttribute, Integer> {
 
   /**
    * This method will find an User instance in the database by its email.
@@ -16,5 +19,7 @@ public interface RuleAttributeDao extends CrudRepository<RuleAttribute, Long> {
    */
 	
 	public RuleAttribute findById(int ruleAttributeId);
-	public RuleAttribute findByRule(Rule ruleId);
+	
+	@Query("select r from RuleAttribute r where r.rule.id = ?1")
+	public List<RuleAttribute> findRuleAttributeByRuleId(int ruleId);
 }

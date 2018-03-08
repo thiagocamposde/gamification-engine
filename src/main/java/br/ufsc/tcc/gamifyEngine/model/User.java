@@ -2,6 +2,7 @@ package br.ufsc.tcc.gamifyEngine.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,6 +23,9 @@ public class User {
 	private int id;
 	
 	private int xp;
+	
+	@Column(name="current_xp")
+	private int currentXp;
 	
 	private int level;
 	
@@ -91,6 +95,14 @@ public class User {
 
 	public void setXp(int xp) {
 		this.xp = xp;
+	}
+
+	public int getCurrentXp() {
+		return currentXp;
+	}
+
+	public void setCurrentXp(int currentXp) {
+		this.currentXp = currentXp;
 	}
 }
 

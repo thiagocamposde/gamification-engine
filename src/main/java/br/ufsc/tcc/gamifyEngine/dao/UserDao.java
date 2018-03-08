@@ -1,5 +1,7 @@
 package br.ufsc.tcc.gamifyEngine.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +17,5 @@ public interface UserDao extends CrudRepository<User, Long> {
    * automagically generated from its signature by Spring Data JPA.
    */
   public User findById(int userId);
-  
-  @Query("SELECT u.id from User u where u.id = :userId")
-  public Object getUserAttribute (int userId, int attributeId);
 
 }

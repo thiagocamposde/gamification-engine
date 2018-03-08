@@ -26,14 +26,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User saveUser(User user) {
-		// TODO Auto-generated method stub
 		return userDao.save(user);
-	}
-
-	@Override
-	public Object getUserAttribute(int userId, int attributeId) {
-		
-		return this.userDao.getUserAttribute(userId, attributeId);
-	
 	}
 }

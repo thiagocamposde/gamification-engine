@@ -6,5 +6,4 @@ public interface UserService {
 	public User getUser(int userId);
 	public Iterable<User> findAllUsers();
 	public User saveUser(User user);
-	public Object getUserAttribute(int id, int id2);
 }

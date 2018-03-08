@@ -1,5 +1,6 @@
 package br.ufsc.tcc.gamifyEngine.dao;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,4 +18,10 @@ public interface RuleLevelDao extends CrudRepository<RuleLevel, Long> {
    */
 	
 	public RuleLevel findById(int ruleLevelId);
+	
+	@Query("select r from RuleLevel r where r.startLevel <= ?1 and r.endLevel >= ?1")
+	public RuleLevel findByLevelRange(int currentUserLevel);
+
+	@Query("select max(r.endLevel) from RuleLevel r")
+	public int findHighestLevelRange();
 }
