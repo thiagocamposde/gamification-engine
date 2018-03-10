@@ -1,5 +1,6 @@
 package br.ufsc.tcc.gamifyEngine.dao;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,4 +16,7 @@ public interface RuleBadgeDao extends CrudRepository<RuleBadge, Long> {
    */
 	
 	public RuleBadge findById(int ruleAttributeId);
+
+	@Query("select r from RuleBadge r where r.rule.id = ?1")
+	public RuleBadge findRuleBadgeByRuleId(int ruleId);
 }

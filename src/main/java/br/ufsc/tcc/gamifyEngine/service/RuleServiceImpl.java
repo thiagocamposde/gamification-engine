@@ -62,6 +62,13 @@ public class RuleServiceImpl implements RuleService{
 	public List<RuleAttribute> getRuleAttributeByRule(int ruleId) {
 		return ruleAttributeDao.findRuleAttributeByRuleId(ruleId);
 	}
+	
+
+	@Override
+	public RuleBadge getRuleBadgesByRule(int ruleId) {
+		return this.ruleBadgeDao.findRuleBadgeByRuleId(ruleId);
+		
+	}
 
 	@Override
 	public RuleLevel getRuleLevel(int ruleLevelId) {
@@ -88,6 +95,7 @@ public class RuleServiceImpl implements RuleService{
 				}
 				break;
 			case "badge":
+				//TODO
 				break;
 			case "attribute":
 				break;
@@ -110,4 +118,5 @@ public class RuleServiceImpl implements RuleService{
 		
 		return ruleLevel;
 	}
+
 }

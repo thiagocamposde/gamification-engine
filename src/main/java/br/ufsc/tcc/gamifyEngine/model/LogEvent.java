@@ -1,6 +1,7 @@
 package br.ufsc.tcc.gamifyEngine.model;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,7 +24,7 @@ public class LogEvent {
 	private User user; 
 	
 	@Column(name="event_date")
-	private Date dateEvent;
+	private Timestamp dateEvent;
 	
 	public LogEvent() {
 		// TODO Auto-generated constructor stub
@@ -51,5 +52,13 @@ public class LogEvent {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public Timestamp getDateEvent() {
+		return dateEvent;
+	}
+
+	public void setDateEvent(Timestamp dateEvent) {
+		this.dateEvent = dateEvent;
 	}
 }

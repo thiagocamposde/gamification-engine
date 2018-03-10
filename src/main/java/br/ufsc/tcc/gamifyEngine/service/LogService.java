@@ -6,4 +6,6 @@ import br.ufsc.tcc.gamifyEngine.model.LogEvent;
 
 public interface LogService {
 	public List<LogEvent> getLogByUserAndRule(int userId, int ruleId);
+
+	public void insertLog(LogEvent logEvent);
 }

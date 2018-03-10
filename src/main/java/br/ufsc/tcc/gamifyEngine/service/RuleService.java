@@ -26,5 +26,6 @@ public interface RuleService {
 	 **/
 	public void evaluate(String type, User user);
 	public RuleLevel findAdequatedRuleLevel(User user);
+	public RuleBadge getRuleBadgesByRule(int ruleId);
 }
 

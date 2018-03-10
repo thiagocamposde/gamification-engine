@@ -1,5 +1,10 @@
 package br.ufsc.tcc.gamifyEngine.controller;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,23 +144,26 @@ public class RestApiController {
 		Rule rule = ruleService.getRule(ruleId);
 		User user = userService.getUser(userId);
 		String ruleType = rule.getType();
-
+		
 		boolean completed = false;
 		
-		List<LogEvent> logs = this.logService.getLogByUserAndRule(userId, ruleId);		
+		List<LogEvent> logs = this.logService.getLogByUserAndRule(userId, ruleId);
+		int timesCompleted = logs.size();
 		
-		if(rule.getTimesToComplete() == logs.size()) {
+		if(rule.getTimesToComplete() == timesCompleted) {
 			completed = true;
 		}
-
-		List<RuleAttribute> ruleAttributes = null;
+		
 		User userUpdated = null;
-			
+		
 		if(!completed) {
+			
+			timesCompleted++;
+			
 			//TODO ruleType troca pra enum depois
 			switch (ruleType) {
 			case "attribute":
-				
+				List<RuleAttribute> ruleAttributes = null;
 				ruleAttributes = ruleService.getRuleAttributeByRule(ruleId);
 
 				//atualiza os atributos do usuário
@@ -167,21 +175,36 @@ public class RestApiController {
 							.filter(attribute -> attribute.getAttribute().getId() == attId)
 							.forEach(attribute -> attribute.setValue(attribute.getValue() + amount));
 				}
+				
 				break;
 			case "badge":
-				break;
-			case "level":
-				break;			
+				RuleBadge ruleBadge = null;
+				ruleBadge = ruleService.getRuleBadgesByRule(ruleId);
+				if(timesCompleted == rule.getTimesToComplete())	{
+					user.getBadges().add(ruleBadge.getBadge());
+					this.ruleService.evaluate("badge", user);
+					
+				}
+				break;					
 			default:
 				break;
 			}
 			
+			//sempre vai ganhar XP, mesmo que a rule não for totalmente completa
 			user.setXp(user.getXp() + rule.getXp());
 			user.setCurrentXp(user.getCurrentXp() + rule.getXp());
 			
 			this.ruleService.evaluate("xp", user);
 
 			userUpdated = userService.saveUser(user);
+			
+			//faz log do evento
+			LogEvent logEvent = new LogEvent();
+			logEvent.setRule(rule);
+			logEvent.setUser(user);
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			logEvent.setDateEvent(timestamp);
+			this.logService.insertLog(logEvent);
 		}
 		
 		if(userUpdated != null)

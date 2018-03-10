@@ -30,4 +30,10 @@ public class LogServiceImpl implements LogService{
 	public List<LogEvent>getLogByUserAndRule(int userId, int ruleId) {
 		return this.logEventDao.findByUserAndRule(userId, ruleId);
 	}
+
+	@Override
+	public void insertLog(LogEvent logEvent) {
+		this.logEventDao.save(logEvent);
+		
+	}
 }
