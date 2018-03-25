@@ -2,6 +2,7 @@ package br.ufsc.tcc.gamifyEngine.service;
 
 import java.util.List;
 
+import br.ufsc.tcc.gamifyEngine.model.Attribute;
 import br.ufsc.tcc.gamifyEngine.model.Rule;
 import br.ufsc.tcc.gamifyEngine.model.RuleAttribute;
 import br.ufsc.tcc.gamifyEngine.model.RuleBadge;
@@ -22,10 +23,15 @@ public interface RuleService {
 	 * ou simplesmente fazendo atribuições necessárias.
 	 * @param type tipo da recompensa conquistada (xp, level, attributo ou badge)
 	 * @param user Usuário que recebeu a recompensa
+	 * @param attribute. Pode ser null. Refere-se ao attributo que foi modificado
 	 * 
 	 **/
-	public void evaluate(String type, User user);
+	public void evaluate(String type, User user, Attribute attribute);
 	public RuleLevel findAdequatedRuleLevel(User user);
 	public RuleBadge getRuleBadgesByRule(int ruleId);
+	void deleteRuleLevel(int ruleLevelId);
+	void deleteRuleBadge(int ruleBadgeId);
+	void deleteRuleAttribute(int ruleAttributeId);
+	void deleteRule(int ruleId);
 }
 

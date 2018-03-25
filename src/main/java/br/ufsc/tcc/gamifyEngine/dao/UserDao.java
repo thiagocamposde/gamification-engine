@@ -6,10 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.ufsc.tcc.gamifyEngine.model.LevelReward;
 import br.ufsc.tcc.gamifyEngine.model.User;
 
 @Transactional
-public interface UserDao extends CrudRepository<User, Long> {
+public interface UserDao extends CrudRepository<User, Integer> {
 
   /**
    * This method will find an User instance in the database by its email.

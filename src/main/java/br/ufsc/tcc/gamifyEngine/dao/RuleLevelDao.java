@@ -9,7 +9,7 @@ import br.ufsc.tcc.gamifyEngine.model.RuleAttribute;
 import br.ufsc.tcc.gamifyEngine.model.RuleLevel;
 
 @Transactional
-public interface RuleLevelDao extends CrudRepository<RuleLevel, Long> {
+public interface RuleLevelDao extends CrudRepository<RuleLevel, Integer> {
 
   /**
    * This method will find an User instance in the database by its email.

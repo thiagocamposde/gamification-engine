@@ -15,4 +15,10 @@ public class BadgeServiceImpl implements BadgeService{
 	public Badge getBadge(int badgeId) {
 		return badgeDao.findById(badgeId);
 	}
+
+	@Override
+	public void deleteBadge(int badgeId) {
+		this.badgeDao.delete(badgeId);
+		
+	}
 }

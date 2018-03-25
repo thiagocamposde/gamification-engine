@@ -30,7 +30,10 @@ public class Rule {
 	
 	@NotNull
 	private boolean active;
-
+	
+	@NotNull
+	private boolean finished;
+	
 	public Rule() {
 
 	}
@@ -82,5 +85,13 @@ public class Rule {
 
 	public void setXp(int xp) {
 		this.xp = xp;
+	}
+
+	public boolean isFinished() {
+		return finished;
+	}
+
+	public void setFinished(boolean finished) {
+		this.finished = finished;
 	}
 }

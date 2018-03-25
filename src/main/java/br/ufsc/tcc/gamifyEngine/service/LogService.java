@@ -8,4 +8,8 @@ public interface LogService {
 	public List<LogEvent> getLogByUserAndRule(int userId, int ruleId);
 
 	public void insertLog(LogEvent logEvent);
+
+	public void deleteLog(int logId);
+
+	public LogEvent getLog(int logId);
 }

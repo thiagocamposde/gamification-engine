@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.ufsc.tcc.gamifyEngine.model.RuleBadge;
 
 @Transactional
-public interface RuleBadgeDao extends CrudRepository<RuleBadge, Long> {
+public interface RuleBadgeDao extends CrudRepository<RuleBadge, Integer> {
 
   /**
    * This method will find an User instance in the database by its email.

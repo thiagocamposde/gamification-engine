@@ -10,55 +10,74 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import br.ufsc.tcc.gamifyEngine.compositeKeys.RuleAttributeKey;
+import br.ufsc.tcc.gamifyEngine.compositeKeys.LevelRewardKey;
 
 @Entity
-@Table(name="user_attributes")
-public class UserAttribute {
+@Table(name="level_reward")
+public class LevelReward {
 	
 	/*ATTRIBUTES*/
 	@EmbeddedId
-//	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonBackReference
-	private RuleAttributeKey id;
+	private LevelRewardKey id;
 	
 	@MapsId("user")	
 	@ManyToOne
-	@JsonBackReference(value="userAttributeReference")
+	@JsonBackReference
 	private User user;
 	
 	@MapsId("attribute")	
 	@ManyToOne
 	private Attribute attribute;
-	private int value;
+	
+	@MapsId("ruleLevel")	
+	@ManyToOne
+	private RuleLevel ruleLevel;
+	
+	private int amount;
 	
 	/*CONSTRUCTOR*/
-	public UserAttribute() {	}
-	
+	public LevelReward() {	}
 	
 	/*GETTERS AND SETTERS*/
+	public LevelRewardKey getId() {
+		return id;
+	}
+
+	public void setId(LevelRewardKey id) {
+		this.id = id;
+	}
+
 	public User getUser() {
 		return user;
 	}
+
 	public void setUser(User user) {
 		this.user = user;
 	}
+
 	public Attribute getAttribute() {
 		return attribute;
 	}
+
 	public void setAttribute(Attribute attribute) {
 		this.attribute = attribute;
-	}	
-	public int getValue() {
-		return value;
 	}
-	public void setValue(int value) {
-		this.value = value;
+
+	public RuleLevel getRuleLevel() {
+		return ruleLevel;
 	}
-	public RuleAttributeKey getId() {
-		return id;
+
+	public void setRuleLevel(RuleLevel ruleLevel) {
+		this.ruleLevel = ruleLevel;
 	}
-	public void setId(RuleAttributeKey id) {
-		this.id = id;
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 }

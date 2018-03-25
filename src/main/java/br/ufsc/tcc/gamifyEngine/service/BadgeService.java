@@ -4,4 +4,6 @@ import br.ufsc.tcc.gamifyEngine.model.Badge;
 
 public interface BadgeService {
 	public Badge getBadge(int badgeId);
+
+	public void deleteBadge(int badgeId);
 }

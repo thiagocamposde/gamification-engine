@@ -2,6 +2,7 @@ package br.ufsc.tcc.gamifyEngine.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,10 +33,9 @@ public class User {
 	@NotNull
 	private boolean active;
 	
-	@OneToMany(mappedBy = "user")
-	@JsonManagedReference 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")	
+	@JsonManagedReference (value="userAttributeReference")
 	private List <UserAttribute> attributes;
-	
 	
 	@JoinTable(name="user_badges", joinColumns = @JoinColumn(name = "user_id", referencedColumnName="id"), inverseJoinColumns = @JoinColumn(name = "badge_id", referencedColumnName="id" ))
 	@ManyToMany
@@ -61,10 +61,6 @@ public class User {
 		this.attributes = attributes;
 	}
 
-	public User(int id) {
-		this.id = id;		
-	}
-	
 	public boolean isActive() {
 		return active;
 	}

@@ -8,13 +8,19 @@ import org.springframework.stereotype.Service;
 import br.ufsc.tcc.gamifyEngine.dao.RuleDao;
 import br.ufsc.tcc.gamifyEngine.dao.RuleLevelDao;
 import br.ufsc.tcc.gamifyEngine.dao.UserDao;
+import br.ufsc.tcc.gamifyEngine.dao.LevelRewardDao;
 import br.ufsc.tcc.gamifyEngine.dao.RuleAttributeDao;
+import br.ufsc.tcc.gamifyEngine.dao.RuleBadgeAttributeDao;
 import br.ufsc.tcc.gamifyEngine.dao.RuleBadgeDao;
+import br.ufsc.tcc.gamifyEngine.model.Attribute;
+import br.ufsc.tcc.gamifyEngine.model.LevelReward;
 import br.ufsc.tcc.gamifyEngine.model.Rule;
 import br.ufsc.tcc.gamifyEngine.model.RuleAttribute;
 import br.ufsc.tcc.gamifyEngine.model.RuleBadge;
+import br.ufsc.tcc.gamifyEngine.model.RuleBadgeAttribute;
 import br.ufsc.tcc.gamifyEngine.model.RuleLevel;
 import br.ufsc.tcc.gamifyEngine.model.User;
+import br.ufsc.tcc.gamifyEngine.model.UserAttribute;
 
 @Service
 public class RuleServiceImpl implements RuleService{
@@ -26,6 +32,9 @@ public class RuleServiceImpl implements RuleService{
 	private UserDao userDao;
 	
 	@Autowired
+	private LevelRewardDao levelRewardDao;	
+	
+	@Autowired
 	private RuleAttributeDao ruleAttributeDao;
 	
 	@Autowired
@@ -33,6 +42,9 @@ public class RuleServiceImpl implements RuleService{
 
 	@Autowired
 	private RuleLevelDao ruleLevelDao;
+	
+	@Autowired
+	private RuleBadgeAttributeDao ruleBadgeAttributeDao;
 	
 	public RuleServiceImpl() {
 			
@@ -75,13 +87,16 @@ public class RuleServiceImpl implements RuleService{
 		return ruleLevelDao.findById(ruleLevelId);
 	}
 
+	
 	@Override
-	public void evaluate(String type, User user) { //TODO mudar pra enum
+	public void evaluate(String type, User user, Attribute att) { //TODO mudar pra enum
+		
+		RuleLevel ruleLevel = null;
 		
 		switch (type) {
 			case "xp":
 				
-				RuleLevel ruleLevel = this.findAdequatedRuleLevel(user);
+				ruleLevel = this.findAdequatedRuleLevel(user);
 				
 				int currentUserXp = user.getCurrentXp();
 				
@@ -90,16 +105,45 @@ public class RuleServiceImpl implements RuleService{
 						user.setLevel(user.getLevel() + 1);
 						user.setCurrentXp(user.getCurrentXp() - ruleLevel.getXpToLevelUp());
 						currentUserXp = user.getCurrentXp();
+						this.evaluate("level", user, null);
 						ruleLevel = this.findAdequatedRuleLevel(user);
 					}
 				}
 				break;
 			case "badge":
-				//TODO
+				//TODO asdasd
 				break;
 			case "attribute":
+				List<RuleBadgeAttribute> ruleBadgesAtt = this.ruleBadgeAttributeDao.findByAttributeId(att.getId());
+				
+				for(RuleBadgeAttribute ruleBadgeAtt: ruleBadgesAtt){
+					
+					for(UserAttribute userAttribute: user.getAttributes()) {
+						if(userAttribute.getAttribute().getId() == ruleBadgeAtt.getAttribute().getId() && userAttribute.getValue() >= ruleBadgeAtt.getValue() && !ruleBadgeAtt.getRule().isFinished()) 
+						{
+							user.getBadges().add(ruleBadgeAtt.getBadge());
+							ruleBadgeAtt.getRule().setFinished(true);
+							this.ruleBadgeAttributeDao.save(ruleBadgeAtt);
+						}
+					}
+				}
 				break;
 			case "level":
+				ruleLevel = this.findAdequatedRuleLevel(user);
+				List<LevelReward> levelRewards = this.levelRewardDao.findCurrentLevelReward(user.getId(), ruleLevel.getId());
+				
+				//atualiza os atributos do usuário
+				for (LevelReward levelReward : levelRewards) {
+					int amount = levelReward.getAmount();
+					int attId = levelReward.getAttribute().getId();
+
+					user.getAttributes().stream()
+							.filter(attribute -> attribute.getAttribute().getId() == attId)
+							.forEach(attribute -> attribute.setValue(attribute.getValue() + amount));
+					
+					
+					this.evaluate("attribute", user, levelReward.getAttribute());
+				}
 				break;
 			default:
 				break;
@@ -119,4 +163,24 @@ public class RuleServiceImpl implements RuleService{
 		return ruleLevel;
 	}
 
+	@Override
+	public void deleteRule(int ruleId) {
+		this.ruleDao.delete(ruleId);
+	}
+
+	@Override
+	public void deleteRuleAttribute(int ruleAttributeId) {
+		this.ruleAttributeDao.delete(ruleAttributeId);
+	}
+
+	@Override
+	public void deleteRuleBadge(int ruleBadgeId) {
+		this.ruleBadgeDao.delete(ruleBadgeId);
+		
+	}
+
+	@Override
+	public void deleteRuleLevel(int ruleLevelId) {
+		this.ruleLevelDao.delete(ruleLevelId);
+	}
 }

@@ -16,4 +16,8 @@ public class AttributeServiceImpl implements AttributeService{
 		return attributeDao.findById(attributeId);
 	}
 
+	@Override
+	public void deleteAttribute(int attributeId) {
+		this.attributeDao.delete(attributeId);
+	}
 }

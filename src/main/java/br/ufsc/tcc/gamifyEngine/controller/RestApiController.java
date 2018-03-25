@@ -1,10 +1,6 @@
 package br.ufsc.tcc.gamifyEngine.controller;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.ufsc.tcc.gamifyEngine.compositeKeys.RuleAttributeKey;
 import br.ufsc.tcc.gamifyEngine.model.Attribute;
 import br.ufsc.tcc.gamifyEngine.model.Badge;
 import br.ufsc.tcc.gamifyEngine.model.LogEvent;
@@ -24,12 +22,14 @@ import br.ufsc.tcc.gamifyEngine.model.RuleAttribute;
 import br.ufsc.tcc.gamifyEngine.model.RuleBadge;
 import br.ufsc.tcc.gamifyEngine.model.RuleLevel;
 import br.ufsc.tcc.gamifyEngine.model.User;
-import br.ufsc.tcc.gamifyEngine.model.UserAttribute;
 import br.ufsc.tcc.gamifyEngine.service.AttributeService;
 import br.ufsc.tcc.gamifyEngine.service.BadgeService;
 import br.ufsc.tcc.gamifyEngine.service.LogService;
 import br.ufsc.tcc.gamifyEngine.service.RuleService;
 import br.ufsc.tcc.gamifyEngine.service.UserService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api")
@@ -49,8 +49,14 @@ public class RestApiController {
 	
 	@Autowired
 	LogService logService;
-
-	@RequestMapping(value = "/user/", method = RequestMethod.GET)
+	
+	public static final Logger logger = LoggerFactory.getLogger(RestApiController.class);
+	
+	/**
+	 * Retorna todos os usuários
+	 *  
+	 **/
+	@RequestMapping(value = "/users/", method = RequestMethod.GET)
 	public ResponseEntity<?> listAllUsers() {
 		List<User> usersList = new ArrayList<User>();
 		Iterable<User> users = userService.findAllUsers();
@@ -69,7 +75,7 @@ public class RestApiController {
 		return new ResponseEntity<>(usersList, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
 	public ResponseEntity<?> getUser(@PathVariable int userId) {
 		User user = userService.getUser(userId);
 
@@ -78,8 +84,45 @@ public class RestApiController {
 		}
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/users/", method = RequestMethod.POST)
+	public ResponseEntity<?> postUser(@RequestBody User user) {
+		
+		User userCreated = this.userService.saveUser(user);
+		return new ResponseEntity<>(userCreated, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/users/{userId}", method = RequestMethod.PUT)
+	public ResponseEntity<?> putUser(@PathVariable int userId, @RequestBody User user) {
+		
+		logger.info("Updating User with id {}", userId);
+		
+		User currentUser = userService.getUser(userId);
+		
+		if (currentUser == null) {
+			logger.error("Unable to update. User with id {} not found.", userId);
+		    return new ResponseEntity<>(new Exception("Unable to update. User with id " + userId + " not found."),
+		            HttpStatus.NOT_FOUND);
+		}
+		
+		currentUser.setActive(user.isActive());
+		currentUser.setXp(user.getXp());
+		currentUser.setLevel(user.getLevel());
+		currentUser.setCurrentXp(user.getCurrentXp());
+		
+		user.getAttributes().stream().forEach(attUser -> {
+			attUser.setId(new RuleAttributeKey(userId, attUser.getAttribute().getId()));
+		});
+		
+		currentUser.setAttributes(user.getAttributes());
+		currentUser.setBadges(user.getBadges());
+		
+ 
+        this.userService.saveUser(currentUser);
+        return new ResponseEntity<User>(currentUser, HttpStatus.OK);		
+	}
 
-	@RequestMapping(value = "/rule/{ruleId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/rules/{ruleId}", method = RequestMethod.GET)
 	public ResponseEntity<?> getRule(@PathVariable int ruleId) {
 		Rule rule = ruleService.getRule(ruleId);
 
@@ -119,7 +162,7 @@ public class RestApiController {
 		return new ResponseEntity<>(ruleLevel, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/attribute/{attributeId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/attributes/{attributeId}", method = RequestMethod.GET)
 	public ResponseEntity<?> getAttribute(@PathVariable int attributeId) {
 		Attribute att = attributeService.getAttribute(attributeId);
 
@@ -129,7 +172,7 @@ public class RestApiController {
 		return new ResponseEntity<>(att, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/badge/{badgeId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/badges/{badgeId}", method = RequestMethod.GET)
 	public ResponseEntity<?> getBadge(@PathVariable int badgeId) {
 		Badge badge = badgeService.getBadge(badgeId);
 
@@ -137,6 +180,17 @@ public class RestApiController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(badge, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/logs/{logId}", method = RequestMethod.GET)
+	public ResponseEntity<?> getLogs(@PathVariable int logId) {		
+
+		LogEvent log = this.logService.getLog(logId);
+
+		if (log == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(log, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/event-rule/{ruleId}/{userId}", method = RequestMethod.GET)
@@ -182,8 +236,7 @@ public class RestApiController {
 				ruleBadge = ruleService.getRuleBadgesByRule(ruleId);
 				if(timesCompleted == rule.getTimesToComplete())	{
 					user.getBadges().add(ruleBadge.getBadge());
-					this.ruleService.evaluate("badge", user);
-					
+					this.ruleService.evaluate("badge", user, null);
 				}
 				break;					
 			default:
@@ -194,7 +247,7 @@ public class RestApiController {
 			user.setXp(user.getXp() + rule.getXp());
 			user.setCurrentXp(user.getCurrentXp() + rule.getXp());
 			
-			this.ruleService.evaluate("xp", user);
+			this.ruleService.evaluate("xp", user, null);
 
 			userUpdated = userService.saveUser(user);
 			
@@ -212,4 +265,90 @@ public class RestApiController {
 		else
 			return new ResponseEntity<>(user, HttpStatus.OK);
 	}
+	
+	
+	//DELETE METHODS	
+	@RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteUser(@PathVariable int userId) {
+		try {
+			userService.deleteUser(userId);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/rules/{ruleId}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteRule(@PathVariable int ruleId) {
+		try {
+			ruleService.deleteRule(ruleId);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/rule-attribute/{ruleAttributeId}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteRuleAttribute(@PathVariable int ruleAttributeId) {
+		try {
+			ruleService.deleteRuleAttribute(ruleAttributeId);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/rule-badge/{ruleBadgeId}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteRuleBadge(@PathVariable int ruleBadgeId) {
+		try {
+			ruleService.deleteRuleBadge(ruleBadgeId);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/rule-level/{ruleLevelId}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteRuleLevel(@PathVariable int ruleLevelId) {
+		try {
+			ruleService.deleteRuleLevel(ruleLevelId);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/attributes/{attributeId}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteAttribute(@PathVariable int attributeId) {
+		try {
+			attributeService.deleteAttribute(attributeId);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e, HttpStatus.BAD_GATEWAY);
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/badges/{badgeId}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteBadge(@PathVariable int badgeId) {		
+
+		try {
+			badgeService.deleteBadge(badgeId);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/logs/{logId}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteLog(@PathVariable int logId) {		
+
+		try {
+			logService.deleteLog(logId);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
 }

@@ -7,9 +7,11 @@ import org.springframework.data.repository.CrudRepository;
 
 import br.ufsc.tcc.gamifyEngine.model.LogEvent;
 
-public interface LogEventDao extends CrudRepository<LogEvent, Long> {
+public interface LogEventDao extends CrudRepository<LogEvent, Integer> {
 //	public LogEvent fingLogByUserAndRule (int userId, int ruleId);
 
 	@Query("select log from LogEvent log where log.rule.id = ?1 AND log.user.id = ?2")
 	public List<LogEvent> findByUserAndRule(int userId, int ruleId);
+	public LogEvent findById(int logId);
+	
 }

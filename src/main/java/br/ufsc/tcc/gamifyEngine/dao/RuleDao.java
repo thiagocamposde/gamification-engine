@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.ufsc.tcc.gamifyEngine.model.Rule;
 
 @Transactional
-public interface RuleDao extends CrudRepository<Rule, Long> {
+public interface RuleDao extends CrudRepository<Rule, Integer> {
 
   /**
    * This method will find an User instance in the database by its email.
