@@ -20,4 +20,9 @@ public class AttributeServiceImpl implements AttributeService{
 	public void deleteAttribute(int attributeId) {
 		this.attributeDao.delete(attributeId);
 	}
+
+	@Override
+	public Attribute saveAttribute(Attribute attribute) {
+		return this.attributeDao.save(attribute);
+	}
 }

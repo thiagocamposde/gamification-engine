@@ -183,4 +183,21 @@ public class RuleServiceImpl implements RuleService{
 	public void deleteRuleLevel(int ruleLevelId) {
 		this.ruleLevelDao.delete(ruleLevelId);
 	}
+
+	@Override
+	public Rule saveRule(Rule currentRule) {
+		return this.ruleDao.save(currentRule);
+		
+	}
+
+	@Override
+	public RuleBadge saveRuleBadge(RuleBadge ruleBadge) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RuleLevel saveRuleLevel(RuleLevel ruleLevel) {
+		return this.ruleLevelDao.save(ruleLevel);		
+	}
 }

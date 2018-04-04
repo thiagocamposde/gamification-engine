@@ -48,4 +48,22 @@ public class LogServiceImpl implements LogService{
 		return this.logEventDao.findById(logId);
 		
 	}
+
+	@Override
+	public List<LogEvent> getUserLogs(int userId) {
+		return this.logEventDao.getUserLogs(userId);
+		
+	}
+
+	@Override
+	public LogEvent saveLog(LogEvent logEvent) {
+		return this.logEventDao.save(logEvent);
+		
+	}
+
+	@Override
+	public void deleteRuleLogsFromUser(int ruleId, int userId) {
+		this.logEventDao.deleteRuleLogsFromUser(ruleId, userId);
+		
+	}
 }

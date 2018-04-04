@@ -19,6 +19,10 @@ public class BadgeServiceImpl implements BadgeService{
 	@Override
 	public void deleteBadge(int badgeId) {
 		this.badgeDao.delete(badgeId);
-		
+	}
+
+	@Override
+	public Badge saveBadge(Badge badge) {
+		return this.badgeDao.save(badge);
 	}
 }

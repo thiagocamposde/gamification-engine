@@ -7,4 +7,6 @@ public interface UserService {
 	public Iterable<User> findAllUsers();
 	public User saveUser(User user);
 	public void deleteUser(int userId);
+	public void getUserBadge(int userId, int badgeId);
+	public void deleteUserBadge(int userId, int badgeId);
 }

@@ -12,4 +12,10 @@ public interface LogService {
 	public void deleteLog(int logId);
 
 	public LogEvent getLog(int logId);
+
+	public List<LogEvent> getUserLogs(int userId);
+
+	public LogEvent saveLog(LogEvent logEvent);
+
+	public void deleteRuleLogsFromUser(int ruleId, int userId);
 }

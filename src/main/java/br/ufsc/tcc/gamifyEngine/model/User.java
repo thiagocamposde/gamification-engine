@@ -32,8 +32,8 @@ public class User {
 	
 	@NotNull
 	private boolean active;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")	
+//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	@JsonManagedReference (value="userAttributeReference")
 	private List <UserAttribute> attributes;
 	

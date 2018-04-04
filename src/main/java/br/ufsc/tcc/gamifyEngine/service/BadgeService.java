@@ -6,4 +6,6 @@ public interface BadgeService {
 	public Badge getBadge(int badgeId);
 
 	public void deleteBadge(int badgeId);
+
+	public Badge saveBadge(Badge badge);
 }

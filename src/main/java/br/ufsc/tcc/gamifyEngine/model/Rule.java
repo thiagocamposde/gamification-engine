@@ -38,7 +38,7 @@ public class Rule {
 
 	}
 	
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -94,4 +94,5 @@ public class Rule {
 	public void setFinished(boolean finished) {
 		this.finished = finished;
 	}
+	
 }

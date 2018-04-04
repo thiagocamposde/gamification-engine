@@ -35,4 +35,16 @@ public class UserServiceImpl implements UserService {
 	public void deleteUser(int userId) {
 		this.userDao.delete(userId);
 	}
+
+	@Override
+	public void getUserBadge(int userId, int badgeId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteUserBadge(int userId, int badgeId) {
+		this.userDao.deleteUserBadge(userId, badgeId);
+		
+	}
 }

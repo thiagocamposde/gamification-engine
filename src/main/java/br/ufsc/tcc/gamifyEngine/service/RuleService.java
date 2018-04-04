@@ -33,5 +33,8 @@ public interface RuleService {
 	void deleteRuleBadge(int ruleBadgeId);
 	void deleteRuleAttribute(int ruleAttributeId);
 	void deleteRule(int ruleId);
+	public Rule saveRule(Rule currentRule);
+	public RuleBadge saveRuleBadge(RuleBadge ruleBadge);
+	public RuleLevel saveRuleLevel(RuleLevel ruleLevel);
 }
 

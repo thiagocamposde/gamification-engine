@@ -2,6 +2,7 @@ package br.ufsc.tcc.gamifyEngine.dao;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,5 +19,9 @@ public interface UserDao extends CrudRepository<User, Integer> {
    * automagically generated from its signature by Spring Data JPA.
    */
   public User findById(int userId);
+
+  @Modifying
+  @Query(value = "DELETE FROM user_badges where user_id = ?1 and badge_id = ?2", nativeQuery = true)	
+  public void deleteUserBadge(int userId, int badgeId);
 
 }

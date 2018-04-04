@@ -6,4 +6,6 @@ public interface AttributeService {
 	public Attribute getAttribute(int attributeId);
 
 	public void deleteAttribute(int attributeId);
+
+	public Attribute saveAttribute(Attribute attribute);
 }

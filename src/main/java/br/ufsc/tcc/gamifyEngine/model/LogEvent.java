@@ -17,11 +17,17 @@ public class LogEvent {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@ManyToOne
-	private Rule rule;
+//	@ManyToOne
+//	private Rule rule;
+//	
+//	@ManyToOne
+//	private User user; 
 	
-	@ManyToOne
-	private User user; 
+	@Column(name="rule_id")
+	private int rule;
+	
+	@Column(name="user_id")
+	private int user; 
 	
 	@Column(name="event_date")
 	private Timestamp dateEvent;
@@ -38,24 +44,42 @@ public class LogEvent {
 		this.id = id;
 	}
 
-	public Rule getRule() {
-		return rule;
-	}
-
-	public void setRule(Rule rule) {
-		this.rule = rule;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
+//	public Rule getRule() {
+//		return rule;
+//	}
+//
+//	public void setRule(Rule rule) {
+//		this.rule = rule;
+//	}
+//
+//	public User getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
+	
+	
 	
 	public Timestamp getDateEvent() {
 		return dateEvent;
+	}
+
+	public int getRule() {
+		return rule;
+	}
+
+	public void setRule(int rule) {
+		this.rule = rule;
+	}
+
+	public int getUser() {
+		return user;
+	}
+
+	public void setUser(int user) {
+		this.user = user;
 	}
 
 	public void setDateEvent(Timestamp dateEvent) {
