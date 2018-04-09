@@ -1,0 +1,18 @@
+<div class="container">
+
+	<div class="alert alert-success" ng-show="showAlert">{{alertMessage}}</div>
+	<form>
+		<div class="form-group">
+			<label for="attributeName">Nome</label>
+			<input type="text" ng-model="attribute.name" class="form-control" id="attributeName" placeholder="Nome"> 
+		</div>
+		
+		<div class="form-group">
+			<label for="attributeDescription">Description</label>
+			<input type="text" ng-model="attribute.description" class="form-control" id="attributeDescription" placeholder="Descrição"> 
+		</div>
+		
+		<button type="submit" class="btn btn-default" ng-click="saveAttribute()">Salvar</button>
+		
+	</form>
+</div>

@@ -1,13 +1,29 @@
-<div class="section">
-    <h3>{{headingTitle}}</h3>
-    <div>
-        <ul type="square">
-            <li>Luke</li>
-            <li>Darth</li>
-            <li>Anakin</li>
-            <li>Leia</li>
-        </ul>
-    </div>
-</div>
+<div class="container">
 
-asdasdasdasd
+	<div class="alert alert-success" ng-show="showAlert">{{alertMessage}}</div>
+	<form>
+		<div class="form-group">
+			<label for="userName">Nome</label>
+			<input type="text" ng-model="user.name" class="form-control" id="userName" placeholder="Nome"> 
+		</div>
+		
+		<div class="form-group">
+			<label for="userExternId">ID externo</label>
+			<input ng-model="user.extern_id" type="number" class="form-control" id="userExternId" placeholder="Ex.: 10">
+		</div>
+		
+		<div class="form-group">
+			<label for="userLevel">Nível inicial</label>
+			<input ng-model="user.level" type="number" class="form-control" id="userLevel" placeholder="Ex.: 10">
+		</div>
+		
+		<div class="checkbox">
+			<label> 
+				<input ng-model="user.active" type="checkbox" ng-selected="true"> Ativo 
+			</label>
+		</div>
+		
+		<button type="submit" class="btn btn-default" ng-click="saveUser()">Salvar</button>
+		
+	</form>
+</div>

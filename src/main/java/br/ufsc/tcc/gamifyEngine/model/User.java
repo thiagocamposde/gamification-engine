@@ -41,6 +41,12 @@ public class User {
 	@ManyToMany
 	private List <Badge> badges;
 	
+	@Column(nullable = true)
+	private Integer extern_id;
+	
+	@Column(nullable = true)
+	private String name;
+	
 	public User() {
 			
 	}
@@ -99,6 +105,22 @@ public class User {
 
 	public void setCurrentXp(int currentXp) {
 		this.currentXp = currentXp;
+	}
+	
+	public Integer getExtern_id() {
+		return extern_id;
+	}
+
+	public void setExtern_id(Integer extern_id) {
+		this.extern_id = extern_id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }
 
