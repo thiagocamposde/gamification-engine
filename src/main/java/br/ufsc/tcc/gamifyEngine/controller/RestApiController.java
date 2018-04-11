@@ -146,9 +146,19 @@ public class RestApiController {
 	 * **/
 	
 	@RequestMapping(value = "/attributes/", method = RequestMethod.GET)
-	public ResponseEntity<?> getAttributes(@PathVariable int attributeId) {
+	public ResponseEntity<?> getAttributes() {
+		
 		try {
-			//TODO
+			Iterable<Attribute> atts = attributeService.findAllAttributes();
+			
+			List<Attribute> attrList = new ArrayList<Attribute>();
+
+			for (Attribute attribute : atts) {
+				attrList.add(attribute);
+			}
+			
+			
+			return new ResponseEntity<>(attrList, HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -435,9 +445,10 @@ public class RestApiController {
 	 *  -------------------------------------- RULE ATTRIBUTES ------------------------------------
 	 * 
 	 **/
+
 	
 	
-	@RequestMapping(value = "/rules/attributes/{ruleAttributeId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/attributes/rules/{ruleAttributeId}", method = RequestMethod.GET)
 	public ResponseEntity<?> getRuleAttribute(@PathVariable int ruleAttributeId) {
 		RuleAttribute ruleAtt = ruleService.getRuleAttribute(ruleAttributeId);
 
@@ -446,6 +457,24 @@ public class RestApiController {
 		}
 		return new ResponseEntity<>(ruleAtt, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/attributes/rules", method = RequestMethod.POST)
+	public ResponseEntity<?> createRuleAttribute(@RequestBody RuleAttribute ruleAttribute) {
+		try {
+			RuleAttribute newRuleAttribute = this.ruleService.saveRuleAttribute(ruleAttribute);
+			if(newRuleAttribute != null)
+				return new ResponseEntity<>(newRuleAttribute, HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	/**
+	 * 
+	 *  -------------------------------------- RULE BADGES ------------------------------------
+	 * 
+	 **/
 
 	
 	@RequestMapping(value = "/badges/rules/{ruleBadgeId}", method = RequestMethod.GET)

@@ -36,5 +36,6 @@ public interface RuleService {
 	public Rule saveRule(Rule currentRule);
 	public RuleBadge saveRuleBadge(RuleBadge ruleBadge);
 	public RuleLevel saveRuleLevel(RuleLevel ruleLevel);
+	public RuleAttribute saveRuleAttribute(RuleAttribute ruleAttribute);
 }
 

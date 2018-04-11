@@ -32,6 +32,9 @@ public class Rule {
 	private boolean active;
 	
 	@NotNull
+	private boolean repeatable;
+	
+	@NotNull
 	private boolean finished;
 	
 	public Rule() {
@@ -93,6 +96,14 @@ public class Rule {
 
 	public void setFinished(boolean finished) {
 		this.finished = finished;
+	}
+	
+	public boolean isRepeatable() {
+		return repeatable;
+	}
+
+	public void setRepeatable(boolean repeatable) {
+		this.repeatable = repeatable;
 	}
 	
 }

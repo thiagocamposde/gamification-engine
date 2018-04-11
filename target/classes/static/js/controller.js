@@ -42,16 +42,41 @@ app.controller('attributesController', [ '$scope', '$rootScope', '$timeout', 'At
     }
 }]);
 
-app.controller('rulesController', [ '$scope', '$rootScope', '$timeout', 'RuleService', function($scope, $rootScope, $timeout, RuleService) {
-    $scope.rule = {finished:false, active:true};
-   
+app.controller('rulesController', [ '$scope', '$rootScope', '$timeout', 'RuleService', 'AttributeService', function($scope, $rootScope, $timeout, RuleService, AttributeService) {
+    $scope.rule = {finished:false, active:true, repeatable:false};
+    $scope.ruleAttributes = [{}];
+    $scope.attributes = [];
+    
+     AttributeService.findAll()
+     .then (function success(response) {
+    	 $scope.attributes = response.data;
+     },
+     function error(response) {
+     	$rootScope.alert('Error!');
+     });
+
     $scope.saveRule = function () {
-    	RuleService.addRule($scope.rule)    	
-        .then (function success(response) {
+    	RuleService.addRule($scope.rule)
+    	.then (function success(response) {        	
+        	console.log(response);
+        	
         	$rootScope.alert('Regra adicionada com sucesso!');
+        	
+        	$scope.ruleAttributes.forEach(function(ruleAttribute){
+        		ruleAttribute.rule = response.data;
+        		
+        		RuleService.addRuleAttribute(ruleAttribute)
+            	.then(function success(response){
+            		$rootScope.alert('Regra de atributo adicionada com sucesso!');
+            	});
+        	});
         },
         function error(response) {
         	$rootScope.alert('Error adding rule!');
       });
+    }
+    
+    $scope.addAttribute = function () {
+    	$scope.ruleAttributes.push({});
     }
 }]);

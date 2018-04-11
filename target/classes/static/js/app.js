@@ -77,7 +77,14 @@ app.service('BadgeService', [ '$http', function($http) {
 
 
 app.service('AttributeService', [ '$http', function($http) {
-	 
+	
+	this.findAll = function findAll() {
+        return $http({
+            method : 'GET',
+            url : 'api/attributes/'
+        });
+    }
+	
     this.getAttribute = function getAttribute(attributeId) {
         return $http({
             method : 'GET',
@@ -110,5 +117,13 @@ app.service('RuleService', [ '$http', function($http) {
             url : 'api/rules/',
             data : rule
         });
-    }    
+    }
+    
+    this.addRuleAttribute = function addRuleAttribute(ruleAttribute) {
+    	return $http({
+    		method : 'POST',
+            url : 'api/attributes/rules/',
+            data : ruleAttribute
+        });
+    }
 } ]);

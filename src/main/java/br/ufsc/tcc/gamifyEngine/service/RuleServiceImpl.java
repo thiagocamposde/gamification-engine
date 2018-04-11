@@ -200,4 +200,9 @@ public class RuleServiceImpl implements RuleService{
 	public RuleLevel saveRuleLevel(RuleLevel ruleLevel) {
 		return this.ruleLevelDao.save(ruleLevel);		
 	}
+
+	@Override
+	public RuleAttribute saveRuleAttribute(RuleAttribute ruleAttribute) {
+		return this.ruleAttributeDao.save(ruleAttribute);
+	}
 }

@@ -1,5 +1,7 @@
 package br.ufsc.tcc.gamifyEngine.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +26,10 @@ public class AttributeServiceImpl implements AttributeService{
 	@Override
 	public Attribute saveAttribute(Attribute attribute) {
 		return this.attributeDao.save(attribute);
+	}
+
+	@Override
+	public Iterable<Attribute> findAllAttributes() {
+		return this.attributeDao.findAll();
 	}
 }

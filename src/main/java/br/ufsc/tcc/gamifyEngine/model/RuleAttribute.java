@@ -20,9 +20,6 @@ public class RuleAttribute {
 	private Attribute attribute;
 
 	@NotNull
-	private boolean repeatable;
-	
-	@NotNull
 	private int amount;
 
 	public long getId() {
@@ -47,14 +44,6 @@ public class RuleAttribute {
 
 	public void setRule(Rule rule) {
 		this.rule = rule;
-	}
-
-	public boolean isRepeatable() {
-		return repeatable;
-	}
-
-	public void setRepeatable(boolean repeatable) {
-		this.repeatable = repeatable;
 	}
 
 	public int getAmount() {
