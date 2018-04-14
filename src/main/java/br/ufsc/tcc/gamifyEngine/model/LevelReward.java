@@ -22,10 +22,10 @@ public class LevelReward {
 	@JsonBackReference
 	private LevelRewardKey id;
 	
-	@MapsId("user")	
-	@ManyToOne
-	@JsonBackReference
-	private User user;
+//	@MapsId("user")	
+//	@ManyToOne
+//	@JsonBackReference
+//	private User user;
 	
 	@MapsId("attribute")	
 	@ManyToOne
@@ -49,13 +49,13 @@ public class LevelReward {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
+//	public User getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 
 	public Attribute getAttribute() {
 		return attribute;

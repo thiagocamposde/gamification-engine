@@ -1,0 +1,53 @@
+<div class="container">
+
+	<div class="alert alert-success" ng-show="showAlert">{{alertMessage}}</div>
+	<form>
+		<div class="form-group">
+			<label for="ruleName">Nome:</label>
+			<input type="text" ng-model="rule.name" class="form-control" id="ruleName" placeholder="Nome"> 
+		</div>
+				
+		<div class="checkbox">
+			<label> 
+				<input ng-model="rule.active" type="checkbox" ng-selected="true"> Ativar 
+			</label>
+		</div>
+		
+		{{rule}}
+		<br>
+		{{ruleLevels}}
+		
+		<div class="form-group">
+			<label for="ruleLevelStartLevel">Começa no nível:</label>
+			<input ng-model="ruleLevels[0].startLevel" type="number" class="form-control" id="ruleLevelStartLevel" placeholder="Ex.: 1">
+		</div>
+		
+		<div class="form-group">
+			<label for="ruleLevelEndLevel">Termina no nível:</label>
+			<input ng-model="ruleLevels[0].endLevel" type="number" class="form-control" id="ruleLevelEndLevel" placeholder="Ex.: 10">
+		</div>
+		
+		<div class="form-group">
+			<label for="ruleLevelXpToLevelUp">XP necessário para avançar de nível:</label>
+			<input ng-model="ruleLevels[0].xpToLevelUp" type="number" class="form-control" id="ruleLevelXpToLevelUp" placeholder="Ex.: 150">
+		</div>
+		
+		{{levelRewards}}
+		<div id="levelRewardsContainer" ng-repeat="ra in levelRewards">
+			<div class="form-group">
+				<label for="rewardAttribute"> Atributo: </label><br>
+			    <select ng-options="attribute as attribute.name for attribute in attributes" class="form-control" name="rewardAttribute" id="rewardAttribute" ng-model="levelRewards[$index].attribute">
+			      <option value="">Selecione um atributo...</option>
+			    </select>
+			</div>		
+			<div class="form-group">
+				<label for="ruleAttributeAmount">Valor da recompensa:</label>
+				<input ng-model="levelRewards[$index].amount" type="number" class="form-control" id="ruleAttributeAmount" placeholder="Ex.: 100">
+			</div>
+		</div>
+		
+		<button type="submit" class="btn btn-primary" ng-click="addLevelReward()">Adicionar recompensa</button>
+		<button type="submit" class="btn btn-success" ng-click="saveRule()">Salvar</button>
+		
+	</form>
+</div>

@@ -25,4 +25,9 @@ public class BadgeServiceImpl implements BadgeService{
 	public Badge saveBadge(Badge badge) {
 		return this.badgeDao.save(badge);
 	}
+
+	@Override
+	public Iterable<Badge> findAllbadges() {
+		return this.badgeDao.findAll();
+	}
 }

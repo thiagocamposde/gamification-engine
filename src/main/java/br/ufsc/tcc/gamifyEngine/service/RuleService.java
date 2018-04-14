@@ -3,9 +3,11 @@ package br.ufsc.tcc.gamifyEngine.service;
 import java.util.List;
 
 import br.ufsc.tcc.gamifyEngine.model.Attribute;
+import br.ufsc.tcc.gamifyEngine.model.LevelReward;
 import br.ufsc.tcc.gamifyEngine.model.Rule;
 import br.ufsc.tcc.gamifyEngine.model.RuleAttribute;
 import br.ufsc.tcc.gamifyEngine.model.RuleBadge;
+import br.ufsc.tcc.gamifyEngine.model.RuleBadgeAttribute;
 import br.ufsc.tcc.gamifyEngine.model.RuleLevel;
 import br.ufsc.tcc.gamifyEngine.model.User;
 
@@ -37,5 +39,8 @@ public interface RuleService {
 	public RuleBadge saveRuleBadge(RuleBadge ruleBadge);
 	public RuleLevel saveRuleLevel(RuleLevel ruleLevel);
 	public RuleAttribute saveRuleAttribute(RuleAttribute ruleAttribute);
+	public LevelReward saveLevelReward(LevelReward levelReward);
+//	public LevelReward getLevelReward(int levelRewardId);
+	public RuleBadgeAttribute saveRuleBadgeAttribute(RuleBadgeAttribute ruleBadgeAttribute);
 }
 

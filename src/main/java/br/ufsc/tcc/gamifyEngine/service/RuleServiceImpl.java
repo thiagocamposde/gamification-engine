@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.ufsc.tcc.gamifyEngine.dao.RuleDao;
-import br.ufsc.tcc.gamifyEngine.dao.RuleLevelDao;
-import br.ufsc.tcc.gamifyEngine.dao.UserDao;
 import br.ufsc.tcc.gamifyEngine.dao.LevelRewardDao;
 import br.ufsc.tcc.gamifyEngine.dao.RuleAttributeDao;
 import br.ufsc.tcc.gamifyEngine.dao.RuleBadgeAttributeDao;
 import br.ufsc.tcc.gamifyEngine.dao.RuleBadgeDao;
+import br.ufsc.tcc.gamifyEngine.dao.RuleDao;
+import br.ufsc.tcc.gamifyEngine.dao.RuleLevelDao;
+import br.ufsc.tcc.gamifyEngine.dao.UserDao;
 import br.ufsc.tcc.gamifyEngine.model.Attribute;
 import br.ufsc.tcc.gamifyEngine.model.LevelReward;
 import br.ufsc.tcc.gamifyEngine.model.Rule;
@@ -130,7 +130,7 @@ public class RuleServiceImpl implements RuleService{
 				break;
 			case "level":
 				ruleLevel = this.findAdequatedRuleLevel(user);
-				List<LevelReward> levelRewards = this.levelRewardDao.findCurrentLevelReward(user.getId(), ruleLevel.getId());
+				List<LevelReward> levelRewards = this.levelRewardDao.findCurrentLevelReward(ruleLevel.getId());
 				
 				//atualiza os atributos do usuário
 				for (LevelReward levelReward : levelRewards) {
@@ -187,13 +187,12 @@ public class RuleServiceImpl implements RuleService{
 	@Override
 	public Rule saveRule(Rule currentRule) {
 		return this.ruleDao.save(currentRule);
-		
 	}
 
 	@Override
 	public RuleBadge saveRuleBadge(RuleBadge ruleBadge) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.ruleBadgeDao.save(ruleBadge);
+		
 	}
 
 	@Override
@@ -204,5 +203,15 @@ public class RuleServiceImpl implements RuleService{
 	@Override
 	public RuleAttribute saveRuleAttribute(RuleAttribute ruleAttribute) {
 		return this.ruleAttributeDao.save(ruleAttribute);
+	}
+
+	@Override
+	public LevelReward saveLevelReward(LevelReward levelReward) {
+		return this.levelRewardDao.save(levelReward); 
+	}
+
+	@Override
+	public RuleBadgeAttribute saveRuleBadgeAttribute(RuleBadgeAttribute ruleBadgeAttribute) {
+		return this.ruleBadgeAttributeDao.save(ruleBadgeAttribute); 
 	}
 }

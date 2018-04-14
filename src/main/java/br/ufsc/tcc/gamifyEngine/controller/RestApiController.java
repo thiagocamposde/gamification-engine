@@ -13,13 +13,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.ufsc.tcc.gamifyEngine.compositeKeys.LevelRewardKey;
 import br.ufsc.tcc.gamifyEngine.compositeKeys.RuleAttributeKey;
 import br.ufsc.tcc.gamifyEngine.model.Attribute;
 import br.ufsc.tcc.gamifyEngine.model.Badge;
+import br.ufsc.tcc.gamifyEngine.model.LevelReward;
 import br.ufsc.tcc.gamifyEngine.model.LogEvent;
 import br.ufsc.tcc.gamifyEngine.model.Rule;
 import br.ufsc.tcc.gamifyEngine.model.RuleAttribute;
 import br.ufsc.tcc.gamifyEngine.model.RuleBadge;
+import br.ufsc.tcc.gamifyEngine.model.RuleBadgeAttribute;
 import br.ufsc.tcc.gamifyEngine.model.RuleLevel;
 import br.ufsc.tcc.gamifyEngine.model.User;
 import br.ufsc.tcc.gamifyEngine.model.UserAttribute;
@@ -212,6 +215,26 @@ public class RestApiController {
 	 *  -------------------------------------- BADGE ------------------------------------
 	 * 
 	 **/
+	
+	@RequestMapping(value = "/badges/", method = RequestMethod.GET)
+	public ResponseEntity<?> getbadges() {
+		
+		try {
+			Iterable<Badge> badgesList = badgeService.findAllbadges();
+			
+			List<Badge> attrList = new ArrayList<Badge>();
+
+			for (Badge badge : badgesList) {
+				attrList.add(badge);
+			}
+			
+			
+			return new ResponseEntity<>(attrList, HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
 	@RequestMapping(value = "/badges/{badgeId}", method = RequestMethod.GET)
 	public ResponseEntity<?> getBadge(@PathVariable int badgeId) {
@@ -556,6 +579,7 @@ public class RestApiController {
 	@RequestMapping(value = "/level/rules/", method = RequestMethod.POST)
 	public ResponseEntity<?> insertRuleLevel(@RequestBody RuleLevel ruleLevel) {
 		try {
+			
 			RuleLevel newRuleLevel = ruleService.saveRuleLevel(ruleLevel);
 			if(newRuleLevel != null)
 				return new ResponseEntity<>(newRuleLevel, HttpStatus.OK);
@@ -584,10 +608,69 @@ public class RestApiController {
 			// TODO: handle exception
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
-	}	
+	}
+	
+	/**
+	 * 
+	 *  -------------------------------------- LEVEL REWARD ------------------------------------
+	 * 
+	 **/
+	
+//	@RequestMapping(value = "/level/rewards/{levelRewardId}", method = RequestMethod.GET)
+//	public ResponseEntity<?> getLevelReward(@PathVariable int levelRewardId) {
+//		LevelReward levelReward = ruleService.getLevelReward(levelRewardId);
+//
+//		if (levelReward == null) {
+//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//		}
+//		return new ResponseEntity<>(levelReward, HttpStatus.OK);
+//	}
+	
+	@RequestMapping(value = "/level/rewards/", method = RequestMethod.POST)
+	public ResponseEntity<?> insertRuleLevel(@RequestBody LevelReward levelReward) {
+		try {
+			LevelRewardKey lrk = new LevelRewardKey(levelReward.getAttribute().getId(), levelReward.getRuleLevel().getId());
+			levelReward.setId(lrk);
+			
+			LevelReward newLevelReward = ruleService.saveLevelReward(levelReward);
+			if(newLevelReward != null)
+				return new ResponseEntity<>(newLevelReward, HttpStatus.OK);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
 	
-
+	/**
+	 * 
+	 *  -------------------------------------- BADGE RULE ATTRIBUTE ------------------------------------
+	 * 
+	 **/
+	
+	
+	@RequestMapping(value = "/badges/attributes/rewards/", method = RequestMethod.POST)
+	public ResponseEntity<?> insertRuleBadgeAttribute(@RequestBody RuleBadgeAttribute ruleBadgeAttribute) {
+		try {
+			RuleBadgeAttribute newuleBadgeAttribute = ruleService.saveRuleBadgeAttribute(ruleBadgeAttribute);
+			if(newuleBadgeAttribute != null)
+				return new ResponseEntity<>(newuleBadgeAttribute, HttpStatus.OK);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	
+	
+	
+	/**
+	 * 
+	 *  -------------------------------------- ENGINE ------------------------------------
+	 * 
+	 **/
 	@RequestMapping(value = "/event-rule/{ruleId}/{userId}", method = RequestMethod.GET)
 	public ResponseEntity<?> processEvent(@PathVariable int ruleId, @PathVariable int userId) {
 		Rule rule = ruleService.getRule(ruleId);
@@ -660,22 +743,4 @@ public class RestApiController {
 		else
 			return new ResponseEntity<>(user, HttpStatus.OK);
 	}
-	
-	
-//	//DELETE METHODS	
-//
-//
-//	@RequestMapping(value = "/rule-attribute/{ruleAttributeId}", method = RequestMethod.DELETE)
-//	public ResponseEntity<?> deleteRuleAttribute(@PathVariable int ruleAttributeId) {
-//		try {
-//			ruleService.deleteRuleAttribute(ruleAttributeId);
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//		}
-//		return new ResponseEntity<>(HttpStatus.OK);
-//	}
-//
-
-//
-
 }

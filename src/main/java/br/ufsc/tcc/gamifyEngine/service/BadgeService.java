@@ -8,4 +8,6 @@ public interface BadgeService {
 	public void deleteBadge(int badgeId);
 
 	public Badge saveBadge(Badge badge);
+
+	public Iterable<Badge> findAllbadges();
 }

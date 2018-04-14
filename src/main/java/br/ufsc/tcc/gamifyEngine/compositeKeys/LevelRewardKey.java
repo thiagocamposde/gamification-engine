@@ -10,8 +10,8 @@ public class LevelRewardKey implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "user_id", nullable = false)
-	private int user;
+//	@Column(name = "user_id", nullable = false)
+//	private int user;
 	
 	@Column(name = "attribute_id", nullable = false)
 	private int attribute;
@@ -21,6 +21,27 @@ public class LevelRewardKey implements Serializable {
 	
 	public LevelRewardKey() {
 		// TODO Auto-generated constructor stub
-	}	
+	}
+	
+	public LevelRewardKey(int attribute, int ruleLevel) {
+		this.attribute = attribute;
+		this.ruleLevel = ruleLevel;
+	}
+
+	public int getAttribute() {
+		return attribute;
+	}
+
+	public void setAttribute(int attribute) {
+		this.attribute = attribute;
+	}
+
+	public int getRuleLevel() {
+		return ruleLevel;
+	}
+
+	public void setRuleLevel(int ruleLevel) {
+		this.ruleLevel = ruleLevel;
+	}
 	    
 }

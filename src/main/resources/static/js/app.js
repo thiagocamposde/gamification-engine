@@ -1,27 +1,38 @@
 var app = angular.module('app', ['ngRoute','ngResource']);
 app.config(function($routeProvider){
     $routeProvider
-        .when('/users',{
+        .when('/usuarios',{
             templateUrl: '/views/users.html',
             controller: 'usersController'
         })
-        .when('/badges',{
+        .when('/insignias',{
             templateUrl: '/views/badges.html',
             controller: 'badgesController'
         })
-        .when('/attributes',{
+        .when('/atributos',{
             templateUrl: '/views/attributes.html',
             controller: 'attributesController'
         })
-        .when('/rules',{
-            templateUrl: '/views/rules.html',
-            controller: 'rulesController'
+        .when('/regras-atributo',{
+            templateUrl: '/views/rules-attribute.html',
+            controller: 'ruleAttributeController'
+        })
+        .when('/regras-insignia',{
+            templateUrl: '/views/rules-badge.html',
+            controller: 'ruleBadgeController'
+        })
+        .when('/regras-nivel',{
+            templateUrl: '/views/rules-level.html',
+            controller: 'ruleLevelController'
+        })
+        .when('/regras-nivel-recompensa',{
+            templateUrl: '/views/rules-level-reward.html',
+            controller: 'ruleLevelRewardController'
         })
         .otherwise(
             { redirectTo: '/'}
         );
 });
-
 
 app.run(['$rootScope','$timeout' , function ($rootScope, $timeout) {
 	$rootScope.showAlert = false;
@@ -73,6 +84,14 @@ app.service('BadgeService', [ '$http', function($http) {
             data : badge
         });
     }    
+    
+	this.findAll = function findAll() {
+        return $http({
+            method : 'GET',
+            url : 'api/badges/'
+        });
+    }
+	
 } ]);
 
 
@@ -101,7 +120,6 @@ app.service('AttributeService', [ '$http', function($http) {
     }    
 } ]);
 
-
 app.service('RuleService', [ '$http', function($http) {
 	 
     this.getRule = function getRule(ruleId) {
@@ -110,7 +128,6 @@ app.service('RuleService', [ '$http', function($http) {
             url : 'api/rules/' + ruleId
         });
     }
-    
     this.addRule = function addRule(rule) {
         return $http({
             method : 'POST',
@@ -118,12 +135,42 @@ app.service('RuleService', [ '$http', function($http) {
             data : rule
         });
     }
-    
     this.addRuleAttribute = function addRuleAttribute(ruleAttribute) {
     	return $http({
     		method : 'POST',
             url : 'api/attributes/rules/',
             data : ruleAttribute
+        });
+    }
+    this.addRuleLevel = function addRuleLevel(ruleLevel) {
+    	return $http({
+    		method : 'POST',
+            url : 'api/level/rules/',
+            data : ruleLevel
+        });
+    }
+    
+    this.addRuleBadge = function addRuleBadge(ruleBadge) {
+    	return $http({
+    		method : 'POST',
+            url : 'api/badges/rules/',
+            data : ruleBadge
+        });
+    }
+    
+    this.addLevelReward = function addLevelReward(levelReward) {
+    	return $http({
+    		method : 'POST',
+            url : 'api/level/rewards/',
+            data : levelReward
+        });
+    }
+    
+    this.addRuleBadgeAttribute = function addRuleBadgeAttribute(ruleBadgeAttribute) {
+    	return $http({
+    		method : 'POST',
+            url : 'api/badges/attributes/rewards/',
+            data : ruleBadgeAttribute
         });
     }
 } ]);
