@@ -1,9 +1,8 @@
-app.controller('usersController', [ '$scope', '$rootScope', '$timeout', 'UserService', function($scope, $rootScope, $timeout, UserService,) {
+app.controller('usersController2', [ '$scope', '$rootScope', '$timeout', 'UserService', function($scope, $rootScope, $timeout, UserService,) {
     $scope.user = {level:0, current_xp:0, xp:0, active:true};
    
     $scope.saveUser = function () {
     	UserService.addUser($scope.user)
-    	
         .then (function success(response) {
         	$rootScope.alert('Usuário adicionado com sucesso!');
         },

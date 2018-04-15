@@ -1,8 +1,12 @@
-var app = angular.module('app', ['ngRoute','ngResource']);
+var app = angular.module('app', ['ngRoute','ngResource','ngTable']);
 app.config(function($routeProvider){
     $routeProvider
-        .when('/usuarios',{
-            templateUrl: '/views/users.html',
+	    .when('/usuarios',{
+	        templateUrl: '/views/users.html',
+	        controller: 'usersController'
+	    })
+        .when('/usuarios/novo',{
+            templateUrl: '/views/users2.html',
             controller: 'usersController'
         })
         .when('/insignias',{
@@ -24,10 +28,6 @@ app.config(function($routeProvider){
         .when('/regras-nivel',{
             templateUrl: '/views/rules-level.html',
             controller: 'ruleLevelController'
-        })
-        .when('/regras-nivel-recompensa',{
-            templateUrl: '/views/rules-level-reward.html',
-            controller: 'ruleLevelRewardController'
         })
         .otherwise(
             { redirectTo: '/'}
@@ -64,7 +64,16 @@ app.service('UserService', [ '$http', function($http) {
             url : 'api/users/',
             data : user
         });
-    }    
+    }
+    
+    this.getAllUsers = function getAllUsers() {
+        return $http({
+            method : 'GET',
+            url : 'api/users/'
+        });
+    }
+    
+    
 } ]);
 
 

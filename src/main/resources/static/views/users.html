@@ -1,29 +1,31 @@
 <div class="container">
+	<table ng-table="tableParams" class="table" show-filter="false">
+	    <tr ng-repeat="user in $data">
+	        <td title="'Nome'" filter="{ name: 'text'}" sortable="''">
+	            {{user.name}}
+	        </td>
+	        <td title="'ID Externo'" filter="" sortable="''">
+	            {{user.extern_id}}
+	        </td>
+	        <td title="'Nível'" filter="" sortable="''">
+	            {{user.level}}
+	        </td>
+	        
+	        <td title="'Experiência atual'" filter="" sortable="''">
+	            {{user.current_xp}}
+	        </td>
+	        
+	        <td title="'Experiência total'" filter="" sortable="''">
+	            {{user.xp}}
+	        </td>
+	        
+	        <td title="'Status'" filter="" sortable="''">
+	        	<span ng-if="user.active == 1">Ativo</span>
+	        	<span ng-if="user.active == 0">Inativo</span>
+	        </td>
+	    </tr>
+	</table>
+				
+	<button type="submit" class="btn btn-default" ng-click="saveUser()">Salvar</button>
 
-	<div class="alert alert-success" ng-show="showAlert">{{alertMessage}}</div>
-	<form>
-		<div class="form-group">
-			<label for="userName">Nome</label>
-			<input type="text" ng-model="user.name" class="form-control" id="userName" placeholder="Nome"> 
-		</div>
-		
-		<div class="form-group">
-			<label for="userExternId">ID externo</label>
-			<input ng-model="user.extern_id" type="number" class="form-control" id="userExternId" placeholder="Ex.: 10">
-		</div>
-		
-		<div class="form-group">
-			<label for="userLevel">Nível inicial</label>
-			<input ng-model="user.level" type="number" class="form-control" id="userLevel" placeholder="Ex.: 10">
-		</div>
-		
-		<div class="checkbox">
-			<label> 
-				<input ng-model="user.active" type="checkbox" ng-selected="true"> Ativo 
-			</label>
-		</div>
-		
-		<button type="submit" class="btn btn-default" ng-click="saveUser()">Salvar</button>
-		
-	</form>
 </div>
