@@ -1,21 +1,29 @@
 var app = angular.module('app', ['ngRoute','ngResource','ngTable']);
 app.config(function($routeProvider){
     $routeProvider
-	    .when('/usuarios',{
-	        templateUrl: '/views/users.html',
-	        controller: 'usersController'
-	    })
-        .when('/usuarios/novo',{
-            templateUrl: '/views/users2.html',
+        .when('/usuarios',{
+            templateUrl: '/views/user/users.html',
             controller: 'usersController'
         })
+        .when('/usuarios/novo',{
+	        templateUrl: '/views/user/new-user.html',
+	        controller: 'newUserController'
+	    })
         .when('/insignias',{
-            templateUrl: '/views/badges.html',
+            templateUrl: '/views/badge/badges.html',
             controller: 'badgesController'
         })
+        .when('/insignias/novo',{
+            templateUrl: '/views/badge/new-badge.html',
+            controller: 'newBadgeController'
+        })
         .when('/atributos',{
-            templateUrl: '/views/attributes.html',
+            templateUrl: '/views/attribute/attributes.html',
             controller: 'attributesController'
+        })
+        .when('/atributos/novo',{
+            templateUrl: '/views/attribute/new-attribute.html',
+            controller: 'newAttributeController'
         })
         .when('/regras-atributo',{
             templateUrl: '/views/rules-attribute.html',
@@ -79,6 +87,13 @@ app.service('UserService', [ '$http', function($http) {
 
 app.service('BadgeService', [ '$http', function($http) {
 	 
+	this.getAllBadges = function getAllBadge() {
+        return $http({
+            method : 'GET',
+            url : 'api/badges/'
+        });
+    }
+	
     this.getBadge = function getBadge(badgeId) {
         return $http({
             method : 'GET',

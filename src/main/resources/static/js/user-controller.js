@@ -1,6 +1,6 @@
 app.controller('usersController', [ '$scope', '$rootScope', '$timeout', 'UserService','NgTableParams', function($scope, $rootScope, $timeout, UserService, NgTableParams) {
 	
-	$scope.tableParams = new NgTableParams({}, {
+	$scope.usersTableParams = new NgTableParams({}, {
 		getData: function(params) {
 		
 			return UserService.getAllUsers()
@@ -15,4 +15,18 @@ app.controller('usersController', [ '$scope', '$rootScope', '$timeout', 'UserSer
 			});			
 		}
 	});
+}]);
+
+app.controller('newUserController', [ '$scope', '$rootScope', '$timeout', 'UserService', function($scope, $rootScope, $timeout, UserService,) {
+    $scope.user = {level:0, current_xp:0, xp:0, active:true};
+   
+    $scope.saveUser = function () {
+    	UserService.addUser($scope.user)
+        .then (function success(response) {
+        	$rootScope.alert('Usuário adicionado com sucesso!');
+        },
+        function error(response) {
+        	$rootScope.alert('Error adding user!');
+      });
+    }
 }]);

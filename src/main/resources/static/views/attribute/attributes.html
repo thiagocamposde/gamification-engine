@@ -1,0 +1,18 @@
+<div class="container">
+	<a href="#/atributos/novo" type="button" class="btn btn-primary pull-right">Novo attributo</a>
+	<table ng-table="attributesTableParams" class="table" show-filter="false">
+	    <tr ng-repeat="attribute in $data">
+	        <td title="'ID'" filter="" sortable="''">
+	            {{attribute.id}}
+	        </td>
+	        
+	        <td title="'Nome'" filter="{ name: 'text'}" sortable="''">
+	            {{attribute.name}}
+	        </td>
+	       	        
+	        <td title="'Descrição'" filter="" sortable="''">
+	            {{attribute.description}}
+	        </td>
+	    </tr>
+	</table>
+</div>
