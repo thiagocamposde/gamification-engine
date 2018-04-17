@@ -26,12 +26,20 @@ app.config(function($routeProvider){
             controller: 'newAttributeController'
         })
         .when('/regras-atributo',{
-            templateUrl: '/views/rules-attribute.html',
+            templateUrl: '/views/ruleAttribute/rules-attribute.html',
             controller: 'ruleAttributeController'
         })
+        .when('/regras-atributo/novo',{
+            templateUrl: '/views/ruleAttribute/new-rule-attribute.html',
+            controller: 'newRuleAttributeController'
+        })
         .when('/regras-insignia',{
-            templateUrl: '/views/rules-badge.html',
+            templateUrl: '/views/ruleBadge/rules-badge.html',
             controller: 'ruleBadgeController'
+        })
+        .when('/regras-insignia/novo',{
+            templateUrl: '/views/ruleBadge/new-rule-badge.html',
+            controller: 'newRuleBadgeController'
         })
         .when('/regras-nivel',{
             templateUrl: '/views/rules-level.html',
@@ -197,4 +205,20 @@ app.service('RuleService', [ '$http', function($http) {
             data : ruleBadgeAttribute
         });
     }
+    
+    this.getAllAttributeRules = function getAllAttributeRules() {
+        return $http({
+            method : 'GET',
+            url : 'api/attributes/rules/'
+        });
+    }
+    
+    this.getAllBadgeRules = function getAllBadgeRules() {
+        return $http({
+            method : 'GET',
+            url : 'api/badges/rules/'
+        });
+    }
+    
+    
 } ]);

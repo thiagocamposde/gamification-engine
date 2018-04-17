@@ -214,4 +214,14 @@ public class RuleServiceImpl implements RuleService{
 	public RuleBadgeAttribute saveRuleBadgeAttribute(RuleBadgeAttribute ruleBadgeAttribute) {
 		return this.ruleBadgeAttributeDao.save(ruleBadgeAttribute); 
 	}
+
+	@Override
+	public Iterable<RuleAttribute> findAllAttributeRules() {
+		return this.ruleAttributeDao.findAll();
+	}
+
+	@Override
+	public Iterable<RuleBadge> findAllBadgeRules() {
+		return this.ruleBadgeDao.findAll();
+	}
 }

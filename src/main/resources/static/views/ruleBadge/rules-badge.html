@@ -1,0 +1,43 @@
+<div class="container">
+	<a href="#/regras-insignia/novo" type="button" class="btn btn-primary pull-right">Nova regra de insígnia</a>
+	<table ng-table="ruleAttributeTableParams" class="table" show-filter="false">
+	    <tr ng-repeat="rule in $data">
+	    	
+	       <td title="'ID'" filter="" sortable="''">
+	            {{rule.rule.id}}
+	        </td>
+	        
+	        <td title="'Regra'" filter="{ name: 'text'}" sortable="''">
+	            {{rule.rule.name}}
+	        </td>   	        
+      
+	        <td title="'Vezes para completar'" filter="" sortable="''">
+	            {{rule.rule.timesToComplete}}
+	        </td>
+	        
+	        <td title="'Recompensa em XP'" filter="" sortable="''">
+	            {{rule.rule.xp}}
+	        </td>
+	        
+	        <td title="'Regra cíclila'" filter="" sortable="''">
+	            {{rule.rule.repeatable}}
+	        </td>
+	        
+	        <td title="'Finalizada'" filter="" sortable="''">
+	            {{rule.rule.finished}}
+	        </td>
+	        
+	        <td title="'Ativa'" filter="" sortable="''">
+	            {{rule.rule.active}}
+	        </td>
+	        
+	        <td title="'Atributo recompensado'" filter="" sortable="''">
+	            {{rule.attribute.name}}
+	        </td>	        
+	        <td title="'Quantidade'" filter="" sortable="''">
+	            {{rule.amount}}
+	        </td>
+	        
+	    </tr>
+	</table>
+</div>

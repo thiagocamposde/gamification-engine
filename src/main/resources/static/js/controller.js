@@ -1,41 +1,3 @@
-app.controller('ruleAttributeController', [ '$scope', '$rootScope', '$timeout', 'RuleService', 'AttributeService', function($scope, $rootScope, $timeout, RuleService, AttributeService) {
-    $scope.rule = {type:'attribute', finished:false, active:true, repeatable:false};
-    $scope.ruleAttributes = [{}];
-    $scope.attributes = [];
-    
-    AttributeService.findAll()
-    .then (function success(response) {
-    	$scope.attributes = response.data;
-    },
-    function error(response) {
-     	$rootScope.alert('Error!');
-    });
-
-    $scope.saveRule = function () {
-    	RuleService.addRule($scope.rule)
-    	.then (function success(response) {        	
-        	console.log(response);
-        	
-        	$rootScope.alert('Regra adicionada com sucesso!');
-        	
-        	$scope.ruleAttributes.forEach(function(ruleAttribute){
-        		ruleAttribute.rule = response.data;
-        		
-        		RuleService.addRuleAttribute(ruleAttribute)
-            	.then(function success(response){
-            		$rootScope.alert('Regra de atributo adicionada com sucesso!');
-            	});
-        	});
-        },
-        function error(response) {
-        	$rootScope.alert('Error adding rule!');
-      });
-    }
-    
-    $scope.addAttribute = function () {
-    	$scope.ruleAttributes.push({});
-    }
-}]);
 
 app.controller('ruleLevelController', [ '$scope', '$rootScope', '$timeout', 'RuleService','AttributeService', function($scope, $rootScope, $timeout, RuleService, AttributeService) {
 	$scope.rule = {type:'level', timesToComplete:0, finished:false, active:true, repeatable:false, xp:0};
@@ -87,65 +49,6 @@ app.controller('ruleLevelController', [ '$scope', '$rootScope', '$timeout', 'Rul
     
     $scope.addLevelReward = function () {
     	$scope.levelRewards.push({});
-    }
-}]);
-
-
-app.controller('ruleBadgeController', [ '$scope', '$rootScope', '$timeout', 'RuleService', 'BadgeService','AttributeService', function($scope, $rootScope, $timeout, RuleService, BadgeService, AttributeService) {
-	$scope.rule = {type:'badge', finished:false, active:true, repeatable:false, timesToComplete:1};
-	$scope.ruleBadges = [{}];
-	$scope.listBadges = [];
-	$scope.listAttributes = [];
-	$scope.selectedAttribute = {};
-	$scope.type;
-    
-    AttributeService.findAll()
-    .then (function success(response) {
-    	$scope.listAttributes = response.data;
-    },
-    function error(response) {
-     	$rootScope.alert('Error!');
-    });
-    
-    BadgeService.findAll()
-    .then (function success(response) {
-    	$scope.listBadges = response.data;
-    },
-    function error(response) {
-     	$rootScope.alert('Error!');
-    });
-	
-    $scope.saveRule = function () {
-    	RuleService.addRule($scope.rule)
-    	.then (function success(response) 
-    	{        	
-        	$scope.ruleBadges.forEach(function(ruleBadge)
-        	{
-        		ruleBadge.rule = response.data;
-        		
-        		if($scope.type == 'event') 
-        		{
-        			RuleService.addRuleBadge(ruleBadge)
-                	.then(function success(response)
-                	{
-                		$rootScope.alert('Regra de insígnia adicionada com sucesso!');
-                	});
-        		}
-        		else
-        		{
-        			ruleBadge.attribute = $scope.selectedAttribute;
-        			RuleService.addRuleBadgeAttribute(ruleBadge)
-                	.then(function success(response)
-                	{
-                		$rootScope.alert('Regra de insígnia adicionada com sucesso!');
-                	});
-        		}
-        		
-        	});
-        },
-        function error(response) {
-        	$rootScope.alert('Error adding rule!');
-      });
     }
 }]);
 

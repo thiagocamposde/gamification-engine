@@ -469,7 +469,20 @@ public class RestApiController {
 	 * 
 	 **/
 
-	
+	@RequestMapping(value = "/attributes/rules", method = RequestMethod.GET)
+	public ResponseEntity<?> getAllAttributeRules() {
+		List<RuleAttribute> ruleAttributeList = new ArrayList<RuleAttribute>();
+		Iterable<RuleAttribute> rules = ruleService.findAllAttributeRules();
+
+		for (RuleAttribute rule : rules) {
+			ruleAttributeList.add(rule);
+		}
+
+		if (ruleAttributeList.size() == 0) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(ruleAttributeList, HttpStatus.OK);
+	}
 	
 	@RequestMapping(value = "/attributes/rules/{ruleAttributeId}", method = RequestMethod.GET)
 	public ResponseEntity<?> getRuleAttribute(@PathVariable int ruleAttributeId) {
@@ -499,6 +512,21 @@ public class RestApiController {
 	 * 
 	 **/
 
+	
+	@RequestMapping(value = "/badges/rules", method = RequestMethod.GET)
+	public ResponseEntity<?> getAllBadgeRules() {
+		List<RuleBadge> ruleBadgeList = new ArrayList<RuleBadge>();
+		Iterable<RuleBadge> rules = ruleService.findAllBadgeRules();
+
+		for (RuleBadge rule : rules) {
+			ruleBadgeList.add(rule);
+		}
+
+		if (ruleBadgeList.size() == 0) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(ruleBadgeList, HttpStatus.OK);
+	}
 	
 	@RequestMapping(value = "/badges/rules/{ruleBadgeId}", method = RequestMethod.GET)
 	public ResponseEntity<?> getRuleBadge(@PathVariable int ruleBadgeId) {

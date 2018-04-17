@@ -8,16 +8,6 @@
 		</div>
 		
 		<div class="form-group">
-			<label for="ruleType"> Tipo: </label><br>
-		    <select class="form-control" name="ruleType" id="ruleType" ng-model="rule.type">
-		      <option value="">Opções...</option>
-		      <option value="attribute">Atributo</option>
-		      <option value="badge">Emblema</option>
-		      <option value="level">Level</option>
-		    </select>
-		</div>
-		
-		<div class="form-group">
 			<label for="ruleTimeToComplete">Vezes para completar:</label>
 			<input ng-model="rule.timesToComplete" type="number" class="form-control" id="ruleTimeToComplete" placeholder="Ex.: 10">
 		</div>
@@ -37,7 +27,8 @@
 				<input ng-model="ruleAttribute.repeatable" type="checkbox" ng-selected="true"> Regra cíclica 
 			</label>
 		</div>
-		{{ruleAttributes}}
+		
+		
 		<div id="ruleAttributesContainer" ng-repeat="ra in ruleAttributes">
 			<div class="form-group">
 				<label for="ruleAttribute"> Atributo: </label><br>

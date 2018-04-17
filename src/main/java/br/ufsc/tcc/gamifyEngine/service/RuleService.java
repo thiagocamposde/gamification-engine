@@ -18,17 +18,6 @@ public interface RuleService {
 	public RuleBadge getRuleBadge(int ruleBadgeId);
 	public List<RuleAttribute> getRuleAttributeByRule(int rule);
 	public RuleLevel getRuleLevel(int ruleLevelId);
-	
-	/**
-	 * Esta função verifica recursivamente, se após um usuário receber uma recompensa, 
-	 * outras regras não poderão ser desencadeadas, gerando novas recompensas ou
-	 * ou simplesmente fazendo atribuições necessárias.
-	 * @param type tipo da recompensa conquistada (xp, level, attributo ou badge)
-	 * @param user Usuário que recebeu a recompensa
-	 * @param attribute. Pode ser null. Refere-se ao attributo que foi modificado
-	 * 
-	 **/
-	public void evaluate(String type, User user, Attribute attribute);
 	public RuleLevel findAdequatedRuleLevel(User user);
 	public RuleBadge getRuleBadgesByRule(int ruleId);
 	void deleteRuleLevel(int ruleLevelId);
@@ -42,5 +31,20 @@ public interface RuleService {
 	public LevelReward saveLevelReward(LevelReward levelReward);
 //	public LevelReward getLevelReward(int levelRewardId);
 	public RuleBadgeAttribute saveRuleBadgeAttribute(RuleBadgeAttribute ruleBadgeAttribute);
+	public Iterable<RuleAttribute> findAllAttributeRules();
+	public Iterable<RuleBadge> findAllBadgeRules();
+	
+	/**
+	 * Esta função verifica recursivamente, se após um usuário receber uma recompensa, 
+	 * outras regras não poderão ser desencadeadas, gerando novas recompensas ou
+	 * ou simplesmente fazendo atribuições necessárias.
+	 * @param type tipo da recompensa conquistada (xp, level, attributo ou badge)
+	 * @param user Usuário que recebeu a recompensa
+	 * @param attribute. Pode ser null. Refere-se ao attributo que foi modificado
+	 * 
+	 **/
+	public void evaluate(String type, User user, Attribute attribute);
+	
+	
 }
 
