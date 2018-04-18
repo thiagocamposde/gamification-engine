@@ -119,10 +119,11 @@ public class RuleServiceImpl implements RuleService{
 				for(RuleBadgeAttribute ruleBadgeAtt: ruleBadgesAtt){
 					
 					for(UserAttribute userAttribute: user.getAttributes()) {
-						if(userAttribute.getAttribute().getId() == ruleBadgeAtt.getAttribute().getId() && userAttribute.getValue() >= ruleBadgeAtt.getValue() && !ruleBadgeAtt.getRule().isFinished()) 
+						if(userAttribute.getAttribute().getId() == ruleBadgeAtt.getAttribute().getId() && userAttribute.getValue() >= ruleBadgeAtt.getValue()) 
 						{
+							//TODO verificar se está no LOG
 							user.getBadges().add(ruleBadgeAtt.getBadge());
-							ruleBadgeAtt.getRule().setFinished(true);
+//							ruleBadgeAtt.getRule().setFinished(true);
 							this.ruleBadgeAttributeDao.save(ruleBadgeAtt);
 						}
 					}
@@ -224,4 +225,15 @@ public class RuleServiceImpl implements RuleService{
 	public Iterable<RuleBadge> findAllBadgeRules() {
 		return this.ruleBadgeDao.findAll();
 	}
+
+	@Override
+	public Iterable<RuleLevel> findAllLevelRules() {
+		return this.ruleLevelDao.findAll();		
+	}
+
+//	@Override
+//	public LevelReward getLevelReward(int levelRewardId) {
+//		return levelRewardDao.findById(levelRewardId);
+//		
+//	}
 }

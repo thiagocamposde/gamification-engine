@@ -3,12 +3,8 @@ app.controller('ruleBadgeController', [ '$scope', '$rootScope', '$timeout', 'Rul
 	
 	$scope.ruleBadgeTableParams = new NgTableParams({}, {
 		getData: function(params) {
-			console.log('aqui 1');
 			return RuleService.getAllBadgeRules()
 			.then (function success(response) {
-				console.log('aqui 2');
-				console.log(response);
-				
 				params.total(response.data.length);
 				return response.data;
 			},
@@ -18,6 +14,7 @@ app.controller('ruleBadgeController', [ '$scope', '$rootScope', '$timeout', 'Rul
 		}
 	});
 }]);
+
 
 app.controller('newRuleBadgeController', [ '$scope', '$rootScope', '$timeout', 'RuleService', 'BadgeService','AttributeService', function($scope, $rootScope, $timeout, RuleService, BadgeService, AttributeService) {
 	$scope.rule = {type:'badge', finished:false, active:true, repeatable:false, timesToComplete:1};

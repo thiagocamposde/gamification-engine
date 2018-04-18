@@ -583,6 +583,22 @@ public class RestApiController {
 	 *  -------------------------------------- RULE LEVEL ------------------------------------
 	 * 
 	 **/
+	
+	@RequestMapping(value = "/level/rules/", method = RequestMethod.GET)
+	public ResponseEntity<?> getAllRuleLevel() {
+		List<RuleLevel> ruleLevelList = new ArrayList<RuleLevel>();
+		Iterable<RuleLevel> rules = ruleService.findAllLevelRules();
+
+		for (RuleLevel rule : rules) {
+			ruleLevelList.add(rule);
+		}
+
+		if (ruleLevelList.size() == 0) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(ruleLevelList, HttpStatus.OK);
+	}
+	
 
 	@RequestMapping(value = "/level/rules/{ruleLevelId}", method = RequestMethod.GET)
 	public ResponseEntity<?> getRuleLevel(@PathVariable int ruleLevelId) {
@@ -740,7 +756,7 @@ public class RestApiController {
 			case "badge":
 				RuleBadge ruleBadge = null;
 				ruleBadge = ruleService.getRuleBadgesByRule(ruleId);
-				if(timesCompleted == rule.getTimesToComplete())	{
+				if(timesCompleted >= rule.getTimesToComplete())	{
 					user.getBadges().add(ruleBadge.getBadge());
 					this.ruleService.evaluate("badge", user, null);
 				}

@@ -42,8 +42,12 @@ app.config(function($routeProvider){
             controller: 'newRuleBadgeController'
         })
         .when('/regras-nivel',{
-            templateUrl: '/views/rules-level.html',
+            templateUrl: '/views/ruleLevel/rules-level.html',
             controller: 'ruleLevelController'
+        })
+        .when('/regras-nivel/novo',{
+            templateUrl: '/views/ruleLevel/new-rule-level.html',
+            controller: 'newRuleLevelController'
         })
         .otherwise(
             { redirectTo: '/'}
@@ -219,6 +223,16 @@ app.service('RuleService', [ '$http', function($http) {
             url : 'api/badges/rules/'
         });
     }
+    
+    this.getAllLevelRules = function getAllLevelRules() {
+        return $http({
+            method : 'GET',
+            url : 'api/level/rules/'
+        });
+    }
+    
+    
+    
     
     
 } ]);

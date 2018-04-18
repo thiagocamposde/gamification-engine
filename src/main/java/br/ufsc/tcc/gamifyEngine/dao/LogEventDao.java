@@ -12,7 +12,7 @@ import br.ufsc.tcc.gamifyEngine.model.LogEvent;
 public interface LogEventDao extends CrudRepository<LogEvent, Integer> {
 //	public LogEvent fingLogByUserAndRule (int userId, int ruleId);
 
-	@Query("select log from LogEvent log where log.rule.id = ?1 AND log.user.id = ?2")
+	@Query(value= "select * from Log_event log where log.rule_id = ?2 AND log.user_id = ?1", nativeQuery=true)
 	public List<LogEvent> findByUserAndRule(int userId, int ruleId);
 	
 	@Query("select log from LogEvent log where log.id = ?1")
@@ -27,3 +27,5 @@ public interface LogEventDao extends CrudRepository<LogEvent, Integer> {
 	public void deleteRuleLogsFromUser(int ruleId, int userId);
 	
 }
+
+//@Query(value= "select log from LogEvent log where log.rule.id = ?2 AND log.user.id = ?1", nativeQuery=true)

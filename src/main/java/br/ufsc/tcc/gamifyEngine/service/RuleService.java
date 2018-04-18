@@ -33,6 +33,7 @@ public interface RuleService {
 	public RuleBadgeAttribute saveRuleBadgeAttribute(RuleBadgeAttribute ruleBadgeAttribute);
 	public Iterable<RuleAttribute> findAllAttributeRules();
 	public Iterable<RuleBadge> findAllBadgeRules();
+	public Iterable<RuleLevel> findAllLevelRules();
 	
 	/**
 	 * Esta função verifica recursivamente, se após um usuário receber uma recompensa, 
@@ -44,6 +45,7 @@ public interface RuleService {
 	 * 
 	 **/
 	public void evaluate(String type, User user, Attribute attribute);
+	
 	
 	
 }
