@@ -15,6 +15,17 @@ app.controller('usersController', [ '$scope', '$rootScope', '$timeout', 'UserSer
 			});			
 		}
 	});
+	
+	
+	$scope.deleteUser = function(userId){
+		UserService.deleteUser(userId)
+		.then (function success(response) {
+			$rootScope.alert('Usuário excluído com sucesso!');
+		},
+		function error(response) {
+			$rootScope.alert('Error adding user!');
+		});		
+	}
 }]);
 
 app.controller('newUserController', [ '$scope', '$rootScope', '$timeout', 'UserService', function($scope, $rootScope, $timeout, UserService,) {

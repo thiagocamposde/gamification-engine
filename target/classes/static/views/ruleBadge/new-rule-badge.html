@@ -2,6 +2,7 @@
 
 	<div class="alert alert-success" ng-show="showAlert">{{alertMessage}}</div>
 	<form>
+		{{rule}}
 		<div class="form-group">
 			<label for="ruleName">Nome da regra</label>
 			<input type="text" ng-model="rule.name" class="form-control" id="ruleName" placeholder="Nome"> 
@@ -24,19 +25,19 @@
 		
 		<div class="form-group">
 			<label for="ruleName">Tipo</label>
-			<select class="form-control" ng-model="type">
+			<select class="form-control" ng-model="rule.type">
 			    <option value="">Selecione um tipo...</option>
-			    <option value="event">Recompensa por realização de evento</option>
-			    <option value="attributeAmount">Recompensa por acumulo de atributo</option>			      
+			    <option value="badge">Recompensa por realização de evento</option>
+			    <option value="badgeAttribute">Recompensa por acumulo de atributo</option>			      
 			</select>
 		</div>
 		
-		<div class="form-group" ng-show="type == 'event'">
+		<div class="form-group" ng-show="rule.type == 'badge'">
 			<label for="ruleTimeToComplete">Ocorrências necessárias do evento para recompensa </label>
 			<input ng-model="rule.timesToComplete" type="number" class="form-control" id="ruleTimeToComplete" placeholder="Ex.: 10">
 		</div>
 		{{selectedAttribute}}
-		<div id="badgeAttributeWrapper" ng-show="type == 'attributeAmount'">
+		<div id="badgeAttributeWrapper" ng-show="rule.type == 'badgeAttribute'">
 			<div class="form-group">
 				<label for="ruleAttribute"> Atributo: </label><br>
 			    <select ng-options="attribute as attribute.name for attribute in listAttributes" class="form-control" name="ruleAttribute" id="ruleAttribute" ng-model="selectedAttribute">

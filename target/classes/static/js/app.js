@@ -93,6 +93,13 @@ app.service('UserService', [ '$http', function($http) {
         });
     }
     
+    this.deleteUser = function deletelUser(userId) {
+        return $http({
+            method : 'DELETE',
+            url : 'api/users/'+ userId
+        });
+    }
+    
     
 } ]);
 
@@ -128,6 +135,13 @@ app.service('BadgeService', [ '$http', function($http) {
         });
     }
 	
+    this.deleteBadge = function deletelBadge(badgeId) {
+        return $http({
+            method : 'DELETE',
+            url : 'api/badges/'+ badgeId
+        });
+    }
+	
 } ]);
 
 
@@ -154,6 +168,14 @@ app.service('AttributeService', [ '$http', function($http) {
             data : attribute
         });
     }    
+    
+    this.deleteAttribute = function deleteAttribute(attributeId) {
+        return $http({
+            method : 'DELETE',
+            url : 'api/attributes/'+ attributeId
+        });
+    }
+   
 } ]);
 
 app.service('RuleService', [ '$http', function($http) {
@@ -210,6 +232,7 @@ app.service('RuleService', [ '$http', function($http) {
         });
     }
     
+    
     this.getAllAttributeRules = function getAllAttributeRules() {
         return $http({
             method : 'GET',
@@ -224,6 +247,13 @@ app.service('RuleService', [ '$http', function($http) {
         });
     }
     
+    this.getAllBadgeRuleAttributes = function getAllBadgeRuleAttributes() {
+    	return $http({
+    		method : 'GET',
+            url : 'api/badges/attributes/'
+        });
+    }
+    
     this.getAllLevelRules = function getAllLevelRules() {
         return $http({
             method : 'GET',
@@ -231,8 +261,17 @@ app.service('RuleService', [ '$http', function($http) {
         });
     }
     
+    this.deleteRule= function deleteRule(ruleId) {
+        return $http({
+            method : 'DELETE',
+            url : 'api/rules/'+ ruleId
+        });
+    }
     
-    
-    
-    
+    this.deleteRuleAttribute = function deleteRuleAttribute(ruleAttributeId) {
+        return $http({
+            method : 'DELETE',
+            url : 'api/attributes/rules/'+ ruleAttributeId
+        });
+    }    
 } ]);

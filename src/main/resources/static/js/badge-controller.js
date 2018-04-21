@@ -15,6 +15,17 @@ app.controller('badgesController', [ '$scope', '$rootScope', '$timeout', 'BadgeS
 			});			
 		}
 	});
+	
+	$scope.deleteBadge = function(badgeId){
+		BadgeService.deleteBadge(badgeId)
+		.then (function success(response) {
+			$rootScope.alert('Insígnia excluída com sucesso!');
+		},
+		function error(response) {
+			$rootScope.alert('Error adding user!');
+		});		
+	}
+	
 }]);
 
 app.controller('newBadgeController', [ '$scope', '$rootScope', '$timeout', 'BadgeService', function($scope, $rootScope, $timeout, BadgeService) {

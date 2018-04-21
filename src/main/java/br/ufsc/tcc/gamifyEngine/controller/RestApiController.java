@@ -506,6 +506,17 @@ public class RestApiController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	
+	@RequestMapping(value = "/attributes/rules/{ruleAttributeId}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteRuleAttribute(@PathVariable int ruleAttributeId) {
+		try {
+			ruleService.deleteRuleAttribute(ruleAttributeId);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
 	/**
 	 * 
 	 *  -------------------------------------- RULE BADGES ------------------------------------

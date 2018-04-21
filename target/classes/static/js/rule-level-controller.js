@@ -14,6 +14,17 @@ app.controller('ruleLevelController', [ '$scope', '$rootScope', '$timeout', 'Rul
 			});			
 		}
 	});
+	
+	$scope.deleteRule = function(ruleId){
+		RuleService.deleteRule(ruleId)
+		.then (function success(response) {
+			$rootScope.alert('Regra excluída com sucesso!');
+		},
+		function error(response) {
+			$rootScope.alert('Error adding user!');
+		});		
+	}
+	
 }]);
 
 

@@ -1,31 +1,46 @@
 <div class="container">
+	<div class="alert alert-success" ng-show="showAlert">{{alertMessage}}</div>
 	<a href="#/regras-nivel/novo" type="button" class="btn btn-primary pull-right">Nova regra de nível</a>
 	<table ng-table="ruleLevelTableParams" class="table" show-filter="false">
-	    <tr ng-repeat="rule in $data">
+	    <tr ng-repeat="ruleLevel in $data">
 	    	
 	       <td title="'ID'" filter="" sortable="''">
-	            {{rule.rule.id}}
+	            {{ruleLevel.rule.id}}
 	        </td>
 	        
 	        <td title="'Regra'" filter="{ name: 'text'}" sortable="''">
-	            {{rule.rule.name}}
+	            {{ruleLevel.rule.name}}
 	        </td>   	        
 	        
 	        <td title="'Ativa'" filter="" sortable="''">
-	            {{rule.rule.active}}
+	            {{ruleLevel.rule.active}}
 	        </td>
       
 	        <td title="'Inicia no nível'" filter="" sortable="''">
-	            {{rule.startLevel}}
+	            {{ruleLevel.startLevel}}
 	        </td>
 	        
 	        <td title="'Termina no nível'" filter="" sortable="''">
-	            {{rule.endLevel}}
+	            {{ruleLevel.endLevel}}
 	        </td>
 	        
 	        <td title="'XP para evoluir'" filter="" sortable="''">
-	            {{rule.xpToLevelUp}}
+	            {{ruleLevel.xpToLevelUp}}
 	        </td>
+	        
+	        <td>
+				<div class="dropdown">
+					<button class="btn btn-default dropdown-toggle" type="button"
+						id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="true">
+						opções <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						<li><a ng-click="deleteRule(ruleLevel.rule.id)" href="">Excluir</a></li>
+						<li><a ng-click="" href="#">Editar</a></li>
+					</ul>
+				</div>
+			</td>
 	    </tr>
 	</table>
 </div>

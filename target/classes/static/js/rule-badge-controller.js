@@ -1,6 +1,4 @@
 app.controller('ruleBadgeController', [ '$scope', '$rootScope', '$timeout', 'RuleService','NgTableParams', function($scope, $rootScope, $timeout, RuleService, NgTableParams) {
-	console.log('asdasdasd');
-	
 	$scope.ruleBadgeTableParams = new NgTableParams({}, {
 		getData: function(params) {
 			return RuleService.getAllBadgeRules()
@@ -13,11 +11,21 @@ app.controller('ruleBadgeController', [ '$scope', '$rootScope', '$timeout', 'Rul
 			});			
 		}
 	});
+	
+	$scope.deleteRule = function(ruleId){
+		RuleService.deleteRule(ruleId)
+		.then (function success(response) {
+			$rootScope.alert('Regra de atributo excluída com sucesso!');
+		},
+		function error(response) {
+			$rootScope.alert('Error adding user!');
+		});		
+	}
 }]);
 
 
 app.controller('newRuleBadgeController', [ '$scope', '$rootScope', '$timeout', 'RuleService', 'BadgeService','AttributeService', function($scope, $rootScope, $timeout, RuleService, BadgeService, AttributeService) {
-	$scope.rule = {type:'badge', finished:false, active:true, repeatable:false, timesToComplete:1};
+	$scope.rule = {finished:false, active:true, repeatable:false, timesToComplete:1};
 	$scope.ruleBadges = [{}];
 	$scope.listBadges = [];
 	$scope.listAttributes = [];
@@ -48,7 +56,7 @@ app.controller('newRuleBadgeController', [ '$scope', '$rootScope', '$timeout', '
         	{
         		ruleBadge.rule = response.data;
         		
-        		if($scope.type == 'event') 
+        		if($scope.rule.type == 'badge') 
         		{
         			RuleService.addRuleBadge(ruleBadge)
                 	.then(function success(response)

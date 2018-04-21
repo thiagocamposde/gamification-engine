@@ -1,43 +1,58 @@
 <div class="container">
+	<div class="alert alert-success" ng-show="showAlert">{{alertMessage}}</div>
 	<a href="#/regras-insignia/novo" type="button" class="btn btn-primary pull-right">Nova regra de insígnia</a>
 	<table ng-table="ruleBadgeTableParams" class="table" show-filter="false">
-	    <tr ng-repeat="rule in $data">
+	    <tr ng-repeat="ruleBadge in $data">
 	    	
 	       <td title="'ID'" filter="" sortable="''">
-	            {{rule.rule.id}}
+	            {{ruleBadge.rule.id}}
 	        </td>
 	        
 	        <td title="'Regra'" filter="{ name: 'text'}" sortable="''">
-	            {{rule.rule.name}}
+	            {{ruleBadge.rule.name}}
 	        </td>   	        
       
 	        <td title="'Vezes para completar'" filter="" sortable="''">
-	            {{rule.rule.timesToComplete}}
+	            {{ruleBadge.rule.timesToComplete}}
 	        </td>
 	        
 	        <td title="'Recompensa em XP'" filter="" sortable="''">
-	            {{rule.rule.xp}}
+	            {{ruleBadge.rule.xp}}
 	        </td>
 	        
 	        <td title="'Regra cíclila'" filter="" sortable="''">
-	            {{rule.rule.repeatable}}
+	            {{ruleBadge.rule.repeatable}}
 	        </td>
 	        
 	        <td title="'Finalizada'" filter="" sortable="''">
-	            {{rule.rule.finished}}
+	            {{ruleBadge.rule.finished}}
 	        </td>
 	        
 	        <td title="'Ativa'" filter="" sortable="''">
-	            {{rule.rule.active}}
+	            {{ruleBadge.rule.active}}
 	        </td>
 	        
 	        <td title="'ID da insígnia'" filter="" sortable="''">
-	            {{rule.badge.id}}
+	            {{ruleBadge.badge.id}}
 	        </td>
 	        
 	        <td title="'Insígnia'" filter="" sortable="''">
-	            {{rule.badge.name}}
+	            {{ruleBadge.badge.name}}
 	        </td>
+	        
+	        <td>
+				<div class="dropdown">
+					<button class="btn btn-default dropdown-toggle" type="button"
+						id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="true">
+						opções <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						<li><a ng-click="deleteRule(ruleBadge.rule.id)" href="">Excluir</a></li>
+						<li><a ng-click="" href="#">Editar</a></li>
+					</ul>
+				</div>
+			</td>
 	    </tr>
 	</table>
 </div>

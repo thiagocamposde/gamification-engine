@@ -17,6 +17,17 @@ app.controller('ruleAttributeController', [ '$scope', '$rootScope', '$timeout', 
 			});			
 		}
 	});
+	
+	$scope.deleteRuleAttribute = function(ruleAttributeId){
+		RuleService.deleteRuleAttribute(ruleAttributeId)
+		.then (function success(response) {
+			$rootScope.alert('Regra de atributo excluída com sucesso!');
+		},
+		function error(response) {
+			$rootScope.alert('Error adding user!');
+		});		
+	}
+	
 }]);
 
 app.controller('newRuleAttributeController', [ '$scope', '$rootScope', '$timeout', 'RuleService', 'AttributeService', function($scope, $rootScope, $timeout, RuleService, AttributeService) {

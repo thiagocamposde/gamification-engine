@@ -1,5 +1,7 @@
 <div class="container">
+	<div class="alert alert-success" ng-show="showAlert">{{alertMessage}}</div>
 	<a href="#/usuarios/novo" type="button" class="btn btn-primary pull-right">Novo usuário</a>
+	
 	<table ng-table="usersTableParams" class="table" show-filter="false">
 	    <tr ng-repeat="user in $data">
 	    
@@ -29,6 +31,19 @@
 	        	<span ng-if="user.active == 1">Ativo</span>
 	        	<span ng-if="user.active == 0">Inativo</span>
 	        </td>
-	    </tr>
+			<td>
+				<div class="dropdown">
+					<button class="btn btn-default dropdown-toggle" type="button"
+						id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="true">
+						opções <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						<li><a ng-click="deleteUser(user.id)" href="">Excluir</a></li>
+						<li><a ng-click="" href="#">Editar</a></li>
+					</ul>
+				</div>
+			</td>
+		</tr>
 	</table>
 </div>

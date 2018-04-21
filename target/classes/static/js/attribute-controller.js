@@ -1,7 +1,5 @@
 app.controller('attributesController', [ '$scope', '$rootScope', '$timeout', 'AttributeService','NgTableParams', function($scope, $rootScope, $timeout, AttributeService, NgTableParams) {
 	
-	console.log('asdasd');
-	
 	$scope.attributesTableParams = new NgTableParams({}, {
 		getData: function(params) {
 		
@@ -17,6 +15,17 @@ app.controller('attributesController', [ '$scope', '$rootScope', '$timeout', 'At
 			});			
 		}
 	});
+	
+	$scope.deleteAttribute = function(attributeId){
+		AttributeService.deleteAttribute(attributeId)
+		.then (function success(response) {
+			$rootScope.alert('Atributo excluído com sucesso!');
+		},
+		function error(response) {
+			$rootScope.alert('Error adding user!');
+		});
+	}
+	
 }]);
 
 app.controller('newAttributeController', [ '$scope', '$rootScope', '$timeout', 'AttributeService', function($scope, $rootScope, $timeout, AttributeService) {
