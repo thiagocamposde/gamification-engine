@@ -25,28 +25,28 @@
 		
 		<div class="form-group">
 			<label for="ruleName">Tipo</label>
-			<select class="form-control" ng-model="rule.type">
+			<select class="form-control" ng-model="type">
 			    <option value="">Selecione um tipo...</option>
 			    <option value="badge">Recompensa por realização de evento</option>
 			    <option value="badgeAttribute">Recompensa por acumulo de atributo</option>			      
 			</select>
 		</div>
 		
-		<div class="form-group" ng-show="rule.type == 'badge'">
+		<div class="form-group" ng-show="type == 'badge'">
 			<label for="ruleTimeToComplete">Ocorrências necessárias do evento para recompensa </label>
 			<input ng-model="rule.timesToComplete" type="number" class="form-control" id="ruleTimeToComplete" placeholder="Ex.: 10">
 		</div>
 		{{selectedAttribute}}
-		<div id="badgeAttributeWrapper" ng-show="rule.type == 'badgeAttribute'">
+		<div id="badgeAttributeWrapper" ng-show="type == 'badgeAttribute'">
 			<div class="form-group">
 				<label for="ruleAttribute"> Atributo: </label><br>
-			    <select ng-options="attribute as attribute.name for attribute in listAttributes" class="form-control" name="ruleAttribute" id="ruleAttribute" ng-model="selectedAttribute">
+			    <select ng-options="attribute as attribute.name for attribute in listAttributes" class="form-control" name="ruleAttribute" id="ruleAttribute" ng-model="ruleBadges[0].attribute">
 			      <option value="">Selecione um atributo...</option>
 			    </select>
 			</div>		
 			<div class="form-group">
 				<label for="ruleAttributeAmount">Quantidade necessário para conquistar recompensa:</label>
-				<input ng-model="ruleAttributes[$index].amount" type="number" class="form-control" id="ruleAttributeAmount" placeholder="Ex.: 100">
+				<input ng-model="ruleBadges[0].goalValue" type="number" class="form-control" id="ruleAttributeAmount" placeholder="Ex.: 100">
 			</div>		
 		</div>
 		<div class="checkbox">

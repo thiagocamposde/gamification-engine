@@ -114,17 +114,18 @@ public class RuleServiceImpl implements RuleService{
 				//TODO asdasd
 				break;
 			case "attribute":
-				List<RuleBadgeAttribute> ruleBadgesAtt = this.ruleBadgeAttributeDao.findByAttributeId(att.getId());
+				//List<RuleBadgeAttribute> ruleBadgesAtt = this.ruleBadgeAttributeDao.findByAttributeId(att.getId());
+				List<RuleBadge> ruleBadgesAtt = this.ruleBadgeDao.findByAttributeId(att.getId());
 				
-				for(RuleBadgeAttribute ruleBadgeAtt: ruleBadgesAtt){
+				for(RuleBadge ruleBadgeAtt: ruleBadgesAtt){
 					
 					for(UserAttribute userAttribute: user.getAttributes()) {
-						if(userAttribute.getAttribute().getId() == ruleBadgeAtt.getAttribute().getId() && userAttribute.getValue() >= ruleBadgeAtt.getValue()) 
+						if(userAttribute.getAttribute().getId() == ruleBadgeAtt.getAttribute().getId() && userAttribute.getValue() >= ruleBadgeAtt.getGoalValue()) 
 						{
 							//TODO verificar se está no LOG
 							user.getBadges().add(ruleBadgeAtt.getBadge());
 //							ruleBadgeAtt.getRule().setFinished(true);
-							this.ruleBadgeAttributeDao.save(ruleBadgeAtt);
+							this.ruleBadgeDao.save(ruleBadgeAtt);
 						}
 					}
 				}

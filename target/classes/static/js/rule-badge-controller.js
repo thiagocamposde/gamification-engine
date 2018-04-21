@@ -25,7 +25,7 @@ app.controller('ruleBadgeController', [ '$scope', '$rootScope', '$timeout', 'Rul
 
 
 app.controller('newRuleBadgeController', [ '$scope', '$rootScope', '$timeout', 'RuleService', 'BadgeService','AttributeService', function($scope, $rootScope, $timeout, RuleService, BadgeService, AttributeService) {
-	$scope.rule = {finished:false, active:true, repeatable:false, timesToComplete:1};
+	$scope.rule = {type:"badge", finished:false, active:true, repeatable:false, timesToComplete:1};
 	$scope.ruleBadges = [{}];
 	$scope.listBadges = [];
 	$scope.listAttributes = [];
@@ -55,24 +55,20 @@ app.controller('newRuleBadgeController', [ '$scope', '$rootScope', '$timeout', '
         	$scope.ruleBadges.forEach(function(ruleBadge)
         	{
         		ruleBadge.rule = response.data;
-        		
-        		if($scope.rule.type == 'badge') 
-        		{
-        			RuleService.addRuleBadge(ruleBadge)
-                	.then(function success(response)
-                	{
-                		$rootScope.alert('Regra de insígnia adicionada com sucesso!');
-                	});
-        		}
-        		else
-        		{
-        			ruleBadge.attribute = $scope.selectedAttribute;
-        			RuleService.addRuleBadgeAttribute(ruleBadge)
-                	.then(function success(response)
-                	{
-                		$rootScope.alert('Regra de insígnia adicionada com sucesso!');
-                	});
-        		}
+    			RuleService.addRuleBadge(ruleBadge)
+            	.then(function success(response)
+            	{
+            		$rootScope.alert('Regra de insígnia adicionada com sucesso!');
+            	});
+//        		else
+//        		{
+//        			ruleBadge.attribute = $scope.selectedAttribute;
+//        			RuleService.addRuleBadgeAttribute(ruleBadge)
+//                	.then(function success(response)
+//                	{
+//                		$rootScope.alert('Regra de insígnia adicionada com sucesso!');
+//                	});
+//        		}
         		
         	});
         },
