@@ -41,3 +41,26 @@ app.controller('newBadgeController', [ '$scope', '$rootScope', '$timeout', 'Badg
       });
     }
 }]);
+
+
+app.controller('editBadgeController', [ '$scope', '$rootScope', '$timeout', 'BadgeService', '$routeParams', function($scope, $rootScope, $timeout, BadgeService, $routeParams) {
+    $scope.badge = {};
+    BadgeService.getBadge($routeParams.idBadge)    	
+    .then (function success(response) {
+    	$scope.badge = response.data;
+    },
+    function error(response) {
+    	$rootScope.alert('Error adding user!');
+    });
+    
+    
+    $scope.saveBadge = function () {
+    	BadgeService.addBadge($scope.badge)    	
+        .then (function success(response) {
+        	$rootScope.alert('Emblema adicionado com sucesso!');
+        },
+        function error(response) {
+        	$rootScope.alert('Error adding user!');
+      });
+    }
+}]);

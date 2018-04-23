@@ -41,3 +41,25 @@ app.controller('newUserController', [ '$scope', '$rootScope', '$timeout', 'UserS
       });
     }
 }]);
+
+app.controller('editUserController', [ '$scope', '$rootScope', '$timeout', '$routeParams', 'UserService', function($scope, $rootScope, $timeout, $routeParams, UserService) {
+	$scope.user = {};
+	
+    UserService.getUser($routeParams.idUser)
+    .then (function success(response) {
+    	$scope.user = response.data;
+    },
+    function error(response) {
+    	$rootScope.alert('Error adding user!');
+    });
+   
+    $scope.saveUser = function () {
+    	UserService.addUser($scope.user)
+        .then (function success(response) {
+        	$rootScope.alert('Usuário atualizado com sucesso!');
+        },
+        function error(response) {
+        	$rootScope.alert('Error adding user!');
+      });
+    }
+}]);

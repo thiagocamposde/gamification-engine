@@ -9,6 +9,10 @@ app.config(function($routeProvider){
 	        templateUrl: '/views/user/new-user.html',
 	        controller: 'newUserController'
 	    })
+	    .when('/usuarios/:idUser',{
+            templateUrl: '/views/user/new-user.html',
+            controller: 'editUserController'
+        })
         .when('/insignias',{
             templateUrl: '/views/badge/badges.html',
             controller: 'badgesController'
@@ -17,6 +21,10 @@ app.config(function($routeProvider){
             templateUrl: '/views/badge/new-badge.html',
             controller: 'newBadgeController'
         })
+        .when('/insignias/:idBadge',{
+            templateUrl: '/views/badge/new-badge.html',
+            controller: 'editBadgeController'
+        })
         .when('/atributos',{
             templateUrl: '/views/attribute/attributes.html',
             controller: 'attributesController'
@@ -24,6 +32,10 @@ app.config(function($routeProvider){
         .when('/atributos/novo',{
             templateUrl: '/views/attribute/new-attribute.html',
             controller: 'newAttributeController'
+        })
+        .when('/atributos/:idAttribute',{
+            templateUrl: '/views/attribute/new-attribute.html',
+            controller: 'editAttributeController'
         })
         .when('/regras-atributo',{
             templateUrl: '/views/ruleAttribute/rules-attribute.html',
