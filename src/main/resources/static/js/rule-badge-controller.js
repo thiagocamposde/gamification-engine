@@ -24,13 +24,12 @@ app.controller('ruleBadgeController', [ '$scope', '$rootScope', '$timeout', 'Rul
 }]);
 
 
-app.controller('newRuleBadgeController', [ '$scope', '$rootScope', '$timeout', 'RuleService', 'BadgeService','AttributeService', function($scope, $rootScope, $timeout, RuleService, BadgeService, AttributeService) {
+app.controller('newRuleBadgeController', [ '$scope', '$rootScope', '$timeout', 'RuleService', 'BadgeService','AttributeService','$routeParams', function($scope, $rootScope, $timeout, RuleService, BadgeService, AttributeService, $routeParams) {
 	$scope.rule = {type:"badge", finished:false, active:true, repeatable:false, timesToComplete:1};
 	$scope.ruleBadges = [{}];
 	$scope.listBadges = [];
 	$scope.listAttributes = [];
 	$scope.selectedAttribute = {};
-	$scope.type;
     
     AttributeService.findAll()
     .then (function success(response) {
@@ -48,6 +47,27 @@ app.controller('newRuleBadgeController', [ '$scope', '$rootScope', '$timeout', '
      	$rootScope.alert('Error!');
     });
 	
+    //EDIÇÃO	
+    if($routeParams.idRule != 'undefined') {
+    		
+    	RuleService.getRuleBadge($routeParams.idRule)
+        .then (function success(response) {
+        	console.log(response);
+        	console.log('asdasda');
+        	
+        	
+        	$scope.rule = response.data.rule;
+        	$scope.ruleBadges[0].attribute = response.data.attribute
+        	$scope.ruleBadges[0].badge = response.data.badge;
+        	$scope.ruleBadges[0].goalValue = response.data.goalValue;
+        	$scope.ruleBadges[0].id = response.data.id;
+        },
+        function error(response) {
+         	$rootScope.alert('Error!');
+        });
+    	
+    }
+    
     $scope.saveRule = function () {
     	RuleService.addRule($scope.rule)
     	.then (function success(response) 
@@ -60,16 +80,6 @@ app.controller('newRuleBadgeController', [ '$scope', '$rootScope', '$timeout', '
             	{
             		$rootScope.alert('Regra de insígnia adicionada com sucesso!');
             	});
-//        		else
-//        		{
-//        			ruleBadge.attribute = $scope.selectedAttribute;
-//        			RuleService.addRuleBadgeAttribute(ruleBadge)
-//                	.then(function success(response)
-//                	{
-//                		$rootScope.alert('Regra de insígnia adicionada com sucesso!');
-//                	});
-//        		}
-        		
         	});
         },
         function error(response) {

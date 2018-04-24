@@ -53,6 +53,10 @@ app.config(function($routeProvider){
             templateUrl: '/views/ruleBadge/new-rule-badge.html',
             controller: 'newRuleBadgeController'
         })
+        .when('/regras-insignia/:idRule',{
+            templateUrl: '/views/ruleBadge/new-rule-badge.html',
+            controller: 'newRuleBadgeController'
+        })
         .when('/regras-nivel',{
             templateUrl: '/views/ruleLevel/rules-level.html',
             controller: 'ruleLevelController'
@@ -198,6 +202,14 @@ app.service('RuleService', [ '$http', function($http) {
             url : 'api/rules/' + ruleId
         });
     }
+    
+    this.getRuleBadge = function getRuleBadge(ruleBadgeId) {
+        return $http({
+            method : 'GET',
+            url : 'api/badges/rules/' + ruleBadgeId
+        });
+    }
+    
     this.addRule = function addRule(rule) {
         return $http({
             method : 'POST',
