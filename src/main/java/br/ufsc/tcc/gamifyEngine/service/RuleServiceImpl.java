@@ -232,6 +232,11 @@ public class RuleServiceImpl implements RuleService{
 		return this.ruleLevelDao.findAll();		
 	}
 
+	@Override
+	public Iterable<LevelReward> getLevelRewardsByRuleLevel(int idRuleLevel) {
+		return this.levelRewardDao.getLevelRewardsByRuleLevel(idRuleLevel);
+	}
+
 //	@Override
 //	public LevelReward getLevelReward(int levelRewardId) {
 //		return levelRewardDao.findById(levelRewardId);

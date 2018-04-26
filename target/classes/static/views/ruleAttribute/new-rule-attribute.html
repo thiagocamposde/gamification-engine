@@ -27,11 +27,10 @@
 			</label>
 		</div>
 		
-		
 		<div id="ruleAttributesContainer" ng-repeat="ra in ruleAttributes">
 			<div class="form-group">
 				<label for="ruleAttribute"> Atributo: </label><br>
-			    <select ng-options="attribute as attribute.name for attribute in attributes" class="form-control" name="ruleAttribute" id="ruleAttribute" ng-model="ruleAttributes[$index].attribute">
+			    <select ng-options="attribute as attribute.name for attribute in attributes track by attribute.id" class="form-control" name="ruleAttribute" id="ruleAttribute" ng-model="ruleAttributes[$index].attribute">
 			      <option value="">Selecione um atributo...</option>
 			    </select>
 			</div>		

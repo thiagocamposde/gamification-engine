@@ -9,6 +9,10 @@ import br.ufsc.tcc.gamifyEngine.model.LevelReward;
 
 public interface LevelRewardDao  extends CrudRepository<LevelReward, Integer> {
 	
-	@Query("select r from LevelReward r where r.ruleLevel.id = ?2")
+	@Query("select r from LevelReward r where r.ruleLevel.id = ?1")
 	public List<LevelReward> findCurrentLevelReward(int levelRewardId);
+	
+	
+	@Query("select r from LevelReward r where r.ruleLevel.id = ?1")
+	public Iterable<LevelReward> getLevelRewardsByRuleLevel(int idRuleLevel);
 }

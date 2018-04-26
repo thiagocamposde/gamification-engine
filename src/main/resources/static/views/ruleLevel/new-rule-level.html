@@ -36,7 +36,7 @@
 		<div id="levelRewardsContainer" ng-repeat="ra in levelRewards">
 			<div class="form-group">
 				<label for="rewardAttribute"> Atributo: </label><br>
-			    <select ng-options="attribute as attribute.name for attribute in attributes" class="form-control" name="rewardAttribute" id="rewardAttribute" ng-model="levelRewards[$index].attribute">
+			    <select ng-options="attribute as attribute.name for attribute in attributes track by attribute.id" class="form-control" name="rewardAttribute" id="rewardAttribute" ng-model="levelRewards[$index].attribute">
 			      <option value="">Selecione um atributo...</option>
 			    </select>
 			</div>		

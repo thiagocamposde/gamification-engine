@@ -45,6 +45,7 @@ public interface RuleService {
 	 * 
 	 **/
 	public void evaluate(String type, User user, Attribute attribute);
+	public Iterable<LevelReward> getLevelRewardsByRuleLevel(int idRuleLevel);
 	
 	
 	

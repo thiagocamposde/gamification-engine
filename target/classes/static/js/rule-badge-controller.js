@@ -48,8 +48,8 @@ app.controller('newRuleBadgeController', [ '$scope', '$rootScope', '$timeout', '
     });
 	
     //EDIÇÃO	
-    if($routeParams.idRule != 'undefined') {
-    		
+    if(typeof $routeParams.idRule != 'undefined') {
+    	console.log('asdasda');
     	RuleService.getRuleBadge($routeParams.idRule)
         .then (function success(response) {
         	console.log(response);

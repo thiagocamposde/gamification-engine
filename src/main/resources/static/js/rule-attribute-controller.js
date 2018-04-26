@@ -1,14 +1,8 @@
 app.controller('ruleAttributeController', [ '$scope', '$rootScope', '$timeout', 'RuleService','NgTableParams', function($scope, $rootScope, $timeout, RuleService, NgTableParams) {
-	console.log('asdasdasd');
-	
 	$scope.ruleAttributeTableParams = new NgTableParams({}, {
 		getData: function(params) {
-			console.log('aqui 1');
 			return RuleService.getAllAttributeRules()
 			.then (function success(response) {
-				console.log('aqui 2');
-				console.log(response);
-				
 				params.total(response.data.length);
 				return response.data;
 			},
@@ -30,7 +24,7 @@ app.controller('ruleAttributeController', [ '$scope', '$rootScope', '$timeout', 
 	
 }]);
 
-app.controller('newRuleAttributeController', [ '$scope', '$rootScope', '$timeout', 'RuleService', 'AttributeService', function($scope, $rootScope, $timeout, RuleService, AttributeService) {
+app.controller('newRuleAttributeController', [ '$scope', '$rootScope', '$timeout', 'RuleService', 'AttributeService', '$routeParams', function($scope, $rootScope, $timeout, RuleService, AttributeService, $routeParams) {
     $scope.rule = {type:'attribute', finished:false, active:true, repeatable:false};
     $scope.ruleAttributes = [{}];
     $scope.attributes = [];
@@ -42,6 +36,26 @@ app.controller('newRuleAttributeController', [ '$scope', '$rootScope', '$timeout
     function error(response) {
      	$rootScope.alert('Error!');
     });
+    
+    
+    if(typeof $routeParams.idRule != 'undefined') {
+    	
+    	console.log('111111');
+    	RuleService.getRuleAttributesByRule($routeParams.idRule)
+        .then (function success(response) {
+        	console.log(response);
+        	console.log('222222');
+        	
+        	//todos possuem a mesma rule, por isso pegar a de [0]
+        	$scope.rule = response.data[0].rule;
+        	$scope.ruleAttributes = response.data;
+//        	
+        },
+        function error(response) {
+         	$rootScope.alert('Error!');
+        });
+    	
+    }
 
     $scope.saveRule = function () {
     	RuleService.addRule($scope.rule)

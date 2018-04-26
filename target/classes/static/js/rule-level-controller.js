@@ -28,7 +28,7 @@ app.controller('ruleLevelController', [ '$scope', '$rootScope', '$timeout', 'Rul
 }]);
 
 
-app.controller('newRuleLevelController', [ '$scope', '$rootScope', '$timeout', 'RuleService','AttributeService', function($scope, $rootScope, $timeout, RuleService, AttributeService) {
+app.controller('newRuleLevelController', [ '$scope', '$rootScope', '$timeout', 'RuleService','AttributeService', '$routeParams', function($scope, $rootScope, $timeout, RuleService, AttributeService, $routeParams) {
 	$scope.rule = {type:'level', timesToComplete:0, finished:false, active:true, repeatable:false, xp:0};
 	$scope.ruleLevels = [{}];
 	$scope.levelRewards = [];
@@ -58,7 +58,6 @@ app.controller('newRuleLevelController', [ '$scope', '$rootScope', '$timeout', '
             			RuleService.addLevelReward(levelReward)
             			.then(function success(response)
             			{
-            				
             				$rootScope.alert('Regra de nível adicionada com sucesso!');
             			},
             			function error(response)
@@ -78,4 +77,35 @@ app.controller('newRuleLevelController', [ '$scope', '$rootScope', '$timeout', '
     $scope.addLevelReward = function () {
     	$scope.levelRewards.push({});
     }
+    
+    //EDIÇÃO	
+    if(typeof $routeParams.idRuleLevel != 'undefined') {
+    	
+    	console.log('asdasda');
+    	
+    	//get rule level
+    	RuleService.getRuleLevel($routeParams.idRuleLevel)
+        .then (function success(response) {
+        	console.log(response);
+        	console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaa');
+        	$scope.rule = response.data.rule;
+        	$scope.ruleLevels[0] = response.data;
+        },
+        function error(response) {
+         	$rootScope.alert('Error!');
+        });
+    	
+    	//get rule level rewards
+    	RuleService.getRuleLevelRewardsByRuleLevel($routeParams.idRuleLevel)
+        .then (function success(response) {
+        	console.log(response);
+        	console.log('bbbbbbbbbbbbbbbbbbbbb');
+        	$scope.levelRewards = response.data;
+        },
+        function error(response) {
+         	$rootScope.alert('Error!');
+        });
+    }
+    
+    
 }]);

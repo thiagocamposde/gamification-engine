@@ -517,6 +517,25 @@ public class RestApiController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/attributes/rules/byRule/{ruleId}", method = RequestMethod.GET)
+	public ResponseEntity<?> getRuleAttributesByRule(@PathVariable int ruleId) {
+		
+		List<RuleAttribute> ruleAttributeList = new ArrayList<RuleAttribute>();
+		Iterable<RuleAttribute> rules = ruleService.getRuleAttributeByRule(ruleId);
+		
+//		Iterable<RuleAttribute> rules = ruleService.findAllAttributeRules();
+
+		for (RuleAttribute rule : rules) {
+			ruleAttributeList.add(rule);
+		}
+
+		if (ruleAttributeList.size() == 0) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(ruleAttributeList, HttpStatus.OK);
+	}
+	
+	
 	/**
 	 * 
 	 *  -------------------------------------- RULE BADGES ------------------------------------
@@ -696,6 +715,26 @@ public class RestApiController {
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/level/rewards/rules/{idRuleLevel}", method = RequestMethod.GET)
+	public ResponseEntity<?> getLevelRewardsByRuleLevel(@PathVariable int idRuleLevel) {
+		
+		List<LevelReward> levelRewardList = new ArrayList<LevelReward>();
+		Iterable<LevelReward> rulesLoaded = ruleService.getLevelRewardsByRuleLevel(idRuleLevel);
+		
+//		Iterable<RuleAttribute> rules = ruleService.findAllAttributeRules();
+
+		for (LevelReward levelReward : rulesLoaded) {
+			levelRewardList.add(levelReward);
+		}
+
+		if (levelRewardList.size() == 0) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(levelRewardList, HttpStatus.OK);
+	}
+	
+	
 	
 	
 	/**

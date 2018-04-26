@@ -45,6 +45,10 @@ app.config(function($routeProvider){
             templateUrl: '/views/ruleAttribute/new-rule-attribute.html',
             controller: 'newRuleAttributeController'
         })
+        .when('/regras-atributo/:idRule',{
+            templateUrl: '/views/ruleAttribute/new-rule-attribute.html',
+            controller: 'newRuleAttributeController'
+        })
         .when('/regras-insignia',{
             templateUrl: '/views/ruleBadge/rules-badge.html',
             controller: 'ruleBadgeController'
@@ -62,6 +66,10 @@ app.config(function($routeProvider){
             controller: 'ruleLevelController'
         })
         .when('/regras-nivel/novo',{
+            templateUrl: '/views/ruleLevel/new-rule-level.html',
+            controller: 'newRuleLevelController'
+        })
+        .when('/regras-nivel/:idRuleLevel',{
             templateUrl: '/views/ruleLevel/new-rule-level.html',
             controller: 'newRuleLevelController'
         })
@@ -210,6 +218,13 @@ app.service('RuleService', [ '$http', function($http) {
         });
     }
     
+    this.getRuleAttributesByRule = function getRuleAttributesByRule(ruleId) {
+        return $http({
+            method : 'GET',
+            url : 'api/attributes/rules/byRule/' + ruleId
+        });
+    }
+    
     this.addRule = function addRule(rule) {
         return $http({
             method : 'POST',
@@ -296,6 +311,20 @@ app.service('RuleService', [ '$http', function($http) {
         return $http({
             method : 'DELETE',
             url : 'api/attributes/rules/'+ ruleAttributeId
+        });
+    }    
+    
+    this.getRuleLevel = function getRuleLevel(idRuleLevel) {
+        return $http({
+            method : 'GET',
+            url : 'api/level/rules/' + idRuleLevel
+        });
+    }
+    
+    this.getRuleLevelRewardsByRuleLevel = function getRuleLevelRewardsByRuleLevel(idRuleLevel) {
+        return $http({
+            method : 'GET',
+            url : 'api/level/rewards/rules/' + idRuleLevel
         });
     }    
 } ]);
