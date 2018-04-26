@@ -4,6 +4,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
@@ -17,15 +18,19 @@ import br.ufsc.tcc.gamifyEngine.compositeKeys.LevelRewardKey;
 public class LevelReward {
 	
 	/*ATTRIBUTES*/
-	@EmbeddedId
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@JsonBackReference
-	private LevelRewardKey id;
+//	@EmbeddedId
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@JsonBackReference
+//	private LevelRewardKey id;
 	
 //	@MapsId("user")	
 //	@ManyToOne
 //	@JsonBackReference
 //	private User user;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 	
 	@MapsId("attribute")	
 	@ManyToOne
@@ -41,13 +46,13 @@ public class LevelReward {
 	public LevelReward() {	}
 	
 	/*GETTERS AND SETTERS*/
-	public LevelRewardKey getId() {
-		return id;
-	}
-
-	public void setId(LevelRewardKey id) {
-		this.id = id;
-	}
+//	public LevelRewardKey getId() {
+//		return id;
+//	}
+//
+//	public void setId(LevelRewardKey id) {
+//		this.id = id;
+//	}
 
 //	public User getUser() {
 //		return user;
@@ -79,5 +84,13 @@ public class LevelReward {
 
 	public void setAmount(int amount) {
 		this.amount = amount;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

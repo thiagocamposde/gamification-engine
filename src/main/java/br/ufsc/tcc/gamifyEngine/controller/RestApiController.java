@@ -703,8 +703,8 @@ public class RestApiController {
 	@RequestMapping(value = "/level/rewards/", method = RequestMethod.POST)
 	public ResponseEntity<?> insertRuleLevel(@RequestBody LevelReward levelReward) {
 		try {
-			LevelRewardKey lrk = new LevelRewardKey(levelReward.getAttribute().getId(), levelReward.getRuleLevel().getId());
-			levelReward.setId(lrk);
+//			LevelRewardKey lrk = new LevelRewardKey(levelReward.getAttribute().getId(), levelReward.getRuleLevel().getId());
+//			levelReward.setId(lrk);
 			
 			LevelReward newLevelReward = ruleService.saveLevelReward(levelReward);
 			if(newLevelReward != null)
