@@ -1,8 +1,8 @@
 package br.ufsc.tcc.gamifyEngine.controller;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import br.ufsc.tcc.gamifyEngine.compositeKeys.LevelRewardKey;
 import br.ufsc.tcc.gamifyEngine.compositeKeys.RuleAttributeKey;
 import br.ufsc.tcc.gamifyEngine.model.Attribute;
+import br.ufsc.tcc.gamifyEngine.model.FeedbackAttributes;
+import br.ufsc.tcc.gamifyEngine.model.FeedbackXp;
 import br.ufsc.tcc.gamifyEngine.model.Badge;
+import br.ufsc.tcc.gamifyEngine.model.Engine;
 import br.ufsc.tcc.gamifyEngine.model.LevelReward;
 import br.ufsc.tcc.gamifyEngine.model.LogEvent;
 import br.ufsc.tcc.gamifyEngine.model.Rule;
@@ -71,8 +74,6 @@ public class RestApiController {
 			usersList.add(user);
 		}
 
-		System.out.println(usersList);
-
 		if (usersList.size() == 0) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
@@ -86,6 +87,7 @@ public class RestApiController {
 		if (user == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 	
@@ -767,74 +769,100 @@ public class RestApiController {
 	 **/
 	@RequestMapping(value = "/event-rule/{ruleId}/{userId}", method = RequestMethod.GET)
 	public ResponseEntity<?> processEvent(@PathVariable int ruleId, @PathVariable int userId) {
-		Rule rule = ruleService.getRule(ruleId);
-		User user = userService.getUser(userId);
-		String ruleType = rule.getType();
 		
-		boolean completed = false;
+		Map< String, Object > response = this.ruleService.processRule(userId, ruleId);
+//		
+//		Rule rule = ruleService.getRule(ruleId);
+//		User user = userService.getUser(userId);
+//		String ruleType = rule.getType();
+//		
+//		List<FeedbackAttributes> attributesChanges = new ArrayList<FeedbackAttributes>();
+//		List<Badge> badgesChanges = new ArrayList<Badge>();
+//		FeedbackXp xpChanges = new FeedbackXp();
+//		
+//		
+//		boolean completed = false;
+//		
+//		List<LogEvent> logs = this.logService.getLogByUserAndRule(userId, ruleId);
+//		int timesCompleted = logs.size();
+//		
+//		if(rule.getTimesToComplete() == timesCompleted) {
+//			completed = true;
+//		}
+//		
+//		User userUpdated = null;
+//		
+//		if(!completed) {
+//			
+//			timesCompleted++;
+//			
+//			//TODO ruleType troca pra enum depois
+//			switch (ruleType) {
+//			case "attribute":
+//				List<RuleAttribute> ruleAttributes = null;
+//				ruleAttributes = ruleService.getRuleAttributeByRule(ruleId);
+//
+//				//atualiza os atributos do usuário
+//				for (RuleAttribute ruleAttribute : ruleAttributes) {
+//					int amount = ruleAttribute.getAmount();
+//					int attId = ruleAttribute.getAttribute().getId();
+//					
+//					user.getAttributes().stream()
+//							.filter(attribute -> attribute.getAttribute().getId() == attId)
+//							.forEach( attribute -> {
+//								attribute.setValue(attribute.getValue() + amount);
+//								attributesChanges.add(new FeedbackAttributes(attribute.getAttribute(), true, amount));
+//							});
+//				}
+//				
+//				break;
+//			case "badge":
+//				RuleBadge ruleBadge = null;
+//				ruleBadge = ruleService.getRuleBadgesByRule(ruleId);
+//				if(timesCompleted >= rule.getTimesToComplete())	{
+//					user.getBadges().add(ruleBadge.getBadge());
+//					badgesChanges.add(ruleBadge.getBadge());
+//					this.ruleService.evaluate("badge", user, null);
+//				}
+//				break;
+//			default:
+//				break;
+//			}
+//			
+//			//sempre vai ganhar XP, mesmo que a rule não for totalmente completa
+//			if(rule.getXp() != 0) {
+//				user.setXp(user.getXp() + rule.getXp());
+//				user.setCurrentXp(user.getCurrentXp() + rule.getXp());
+//				
+//				xpChanges.setXpChanged(true);
+//				xpChanges.setAmountChanged(rule.getXp());
+//				xpChanges.setNewXp(user.getXp());
+//				xpChanges.setNewCurrentXp(user.getCurrentXp());
+//				
+//				this.ruleService.evaluate("xp", user, null);
+//				
+//			}
+//
+//			userUpdated = userService.saveUser(user);
+//			
+//			//faz log do evento
+//			LogEvent logEvent = new LogEvent();
+//			logEvent.setRule(rule.getId());
+//			logEvent.setUser(user.getId());
+//			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//			logEvent.setDateEvent(timestamp);
+//			this.logService.insertLog(logEvent);
+//		}
+//		
+//		
+//		Map<String, Object> response = new HashMap<String, Object>();
+//		
+//		feedBackChanges.put("attributes", attributesChanges);
+//		feedBackChanges.put("badges", badgesChanges);
+//		feedBackChanges.put("experience", xpChanges);
+//		response.put("user", userUpdated);
+//		response.put("feedBackChanges", feedBackChanges);
 		
-		List<LogEvent> logs = this.logService.getLogByUserAndRule(userId, ruleId);
-		int timesCompleted = logs.size();
-		
-		if(rule.getTimesToComplete() == timesCompleted) {
-			completed = true;
-		}
-		
-		User userUpdated = null;
-		
-		if(!completed) {
-			
-			timesCompleted++;
-			
-			//TODO ruleType troca pra enum depois
-			switch (ruleType) {
-			case "attribute":
-				List<RuleAttribute> ruleAttributes = null;
-				ruleAttributes = ruleService.getRuleAttributeByRule(ruleId);
-
-				//atualiza os atributos do usuário
-				for (RuleAttribute ruleAttribute : ruleAttributes) {
-					int amount = ruleAttribute.getAmount();
-					int attId = ruleAttribute.getAttribute().getId();
-
-					user.getAttributes().stream()
-							.filter(attribute -> attribute.getAttribute().getId() == attId)
-							.forEach(attribute -> attribute.setValue(attribute.getValue() + amount));
-				}
-				
-				break;
-			case "badge":
-				RuleBadge ruleBadge = null;
-				ruleBadge = ruleService.getRuleBadgesByRule(ruleId);
-				if(timesCompleted >= rule.getTimesToComplete())	{
-					user.getBadges().add(ruleBadge.getBadge());
-					this.ruleService.evaluate("badge", user, null);
-				}
-				break;					
-			default:
-				break;
-			}
-			
-			//sempre vai ganhar XP, mesmo que a rule não for totalmente completa
-			user.setXp(user.getXp() + rule.getXp());
-			user.setCurrentXp(user.getCurrentXp() + rule.getXp());
-			
-			this.ruleService.evaluate("xp", user, null);
-
-			userUpdated = userService.saveUser(user);
-			
-			//faz log do evento
-			LogEvent logEvent = new LogEvent();
-			logEvent.setRule(rule.getId());
-			logEvent.setUser(user.getId());
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			logEvent.setDateEvent(timestamp);
-			this.logService.insertLog(logEvent);
-		}
-		
-		if(userUpdated != null)
-			return new ResponseEntity<>(userUpdated, HttpStatus.OK);
-		else
-			return new ResponseEntity<>(user, HttpStatus.OK);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }

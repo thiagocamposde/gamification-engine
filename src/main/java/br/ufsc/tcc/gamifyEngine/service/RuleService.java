@@ -1,6 +1,7 @@
 package br.ufsc.tcc.gamifyEngine.service;
 
 import java.util.List;
+import java.util.Map;
 
 import br.ufsc.tcc.gamifyEngine.model.Attribute;
 import br.ufsc.tcc.gamifyEngine.model.LevelReward;
@@ -45,6 +46,8 @@ public interface RuleService {
 	 * 
 	 **/
 	public void evaluate(String type, User user, Attribute attribute);
+	
+	public Map<String, Object> processRule(int userId, int ruleId);
 	public Iterable<LevelReward> getLevelRewardsByRuleLevel(int idRuleLevel);
 	
 	

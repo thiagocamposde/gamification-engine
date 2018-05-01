@@ -45,4 +45,17 @@ public class Badge {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	@Override
+    public boolean equals(Object object)
+    {
+        boolean sameSame = false;
+
+        if (object != null && object instanceof Badge)
+        {
+            sameSame = this.id == ((Badge) object).id;
+        }
+
+        return sameSame;
+    }
 }
