@@ -22,6 +22,6 @@ public interface RuleLevelDao extends CrudRepository<RuleLevel, Integer> {
 	@Query("select r from RuleLevel r where r.startLevel <= ?1 and r.endLevel >= ?1")
 	public RuleLevel findByLevelRange(int currentUserLevel);
 
-	@Query("select max(r.endLevel) from RuleLevel r")
+	@Query(value="select coalesce(max(r.end_level),0) as maxLevel from rule_level r", nativeQuery=true)
 	public int findHighestLevelRange();
 }

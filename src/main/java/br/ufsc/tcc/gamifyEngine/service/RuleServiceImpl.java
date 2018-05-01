@@ -116,6 +116,7 @@ public class RuleServiceImpl implements RuleService{
 		switch (type) {
 			case "xp":
 				
+				
 				ruleLevel = this.findAdequatedRuleLevel(user);
 				
 				int currentUserXp = user.getCurrentXp();
@@ -194,14 +195,18 @@ public class RuleServiceImpl implements RuleService{
 	@Override
 	public RuleLevel findAdequatedRuleLevel(User user) {
 		RuleLevel ruleLevel = null;
-		int highestLevelRule = this.ruleLevelDao.findHighestLevelRange();
+		Integer highestLevelRule = this.ruleLevelDao.findHighestLevelRange();
 		
-		if(highestLevelRule < user.getLevel())
-			ruleLevel = this.ruleLevelDao.findByLevelRange(highestLevelRule);
-		else
-			ruleLevel = this.ruleLevelDao.findByLevelRange(user.getLevel());
-		
-		return ruleLevel;
+		if(highestLevelRule > 0) {
+			if(highestLevelRule < user.getLevel())
+				ruleLevel = this.ruleLevelDao.findByLevelRange(highestLevelRule);
+			else
+				ruleLevel = this.ruleLevelDao.findByLevelRange(user.getLevel());
+			
+			return ruleLevel;
+			
+		}
+		return null;
 	}
 
 	@Override
@@ -365,7 +370,12 @@ public class RuleServiceImpl implements RuleService{
 		feedBackChanges.put("badges", badgesChanges);
 		feedBackChanges.put("experience", xpChanges);
 		feedBackChanges.put("level", levelChanges);
-		response.put("user", userUpdated);
+		
+		if(userUpdated != null)
+			response.put("user", userUpdated);
+		else
+			response.put("user", user);
+		
 		response.put("feedBackChanges", feedBackChanges);
 		
 		return response;
