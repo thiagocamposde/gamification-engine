@@ -61,10 +61,10 @@ public class RuleServiceImpl implements RuleService{
 	@Autowired
 	LogService logService;
 	
-	List<FeedbackAttributes> attributesChanges = new ArrayList<FeedbackAttributes>();
-	List<Badge> badgesChanges = new ArrayList<Badge>();
-	FeedbackXp xpChanges = new FeedbackXp();
-	FeedbackLevel levelChanges = new FeedbackLevel();
+	List<FeedbackAttributes> attributesChanges;
+	List<Badge> badgesChanges;
+	FeedbackXp xpChanges;
+	FeedbackLevel levelChanges;
 	
 	public RuleServiceImpl() {
 			
@@ -285,6 +285,10 @@ public class RuleServiceImpl implements RuleService{
 	public Map<String, Object> processRule(int userId, int ruleId) {
 		
 		Map< String, Object > feedBackChanges = new HashMap< String, Object>();
+		this.attributesChanges = new ArrayList<FeedbackAttributes>();
+		this.badgesChanges = new ArrayList<Badge>();
+		this.xpChanges = new FeedbackXp();
+		this.levelChanges = new FeedbackLevel();
 		
 		Rule rule = this.getRule(ruleId);
 		User user = userService.getUser(userId);
@@ -295,8 +299,9 @@ public class RuleServiceImpl implements RuleService{
 		List<LogEvent> logs = this.logService.getLogByUserAndRule(userId, ruleId);
 		int timesCompleted = logs.size();
 		
-		if(rule.getTimesToComplete() == timesCompleted) {
-			completed = true;
+		if(rule.getTimesToComplete() <= timesCompleted ) {
+			if(!rule.isRepeatable()) 
+				completed = true;
 		}
 		
 		User userUpdated = null;
@@ -320,10 +325,10 @@ public class RuleServiceImpl implements RuleService{
 							.filter(attribute -> attribute.getAttribute().getId() == attId)
 							.forEach( attribute -> {
 								attribute.setValue(attribute.getValue() + amount);
+								this.evaluate("attribute", user, attribute.getAttribute());
 								attributesChanges.add(new FeedbackAttributes(attribute.getAttribute(), amount));
 							});
-				}
-				
+				}				
 				break;
 			case "badge":
 				RuleBadge ruleBadge = null;
