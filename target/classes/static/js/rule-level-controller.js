@@ -31,7 +31,7 @@ app.controller('ruleLevelController', [ '$scope', '$rootScope', '$timeout', 'Rul
 app.controller('newRuleLevelController', [ '$scope', '$rootScope', '$timeout', 'RuleService','AttributeService', '$routeParams', function($scope, $rootScope, $timeout, RuleService, AttributeService, $routeParams) {
 	$scope.rule = {type:'level', timesToComplete:0, finished:false, active:true, repeatable:false, xp:0};
 	$scope.ruleLevels = [{}];
-	$scope.levelRewards = [];
+	$scope.levelRewards = [{}];
 	$scope.attributes = [];
     
     AttributeService.findAll()
@@ -52,21 +52,19 @@ app.controller('newRuleLevelController', [ '$scope', '$rootScope', '$timeout', '
         		RuleService.addRuleLevel(ruleLevel)
             	.then(function success(response)
             	{
+            		alert('1');
+            		console.log('AAAAAAAAAAAAAAAAAAAAA');
+            		console.log($scope.levelRewards);
             		$scope.levelRewards.forEach(function(levelReward)
             		{
+            			console.log('bbbbbbbbbbbbbbbbbbbbbb');
             			levelReward.ruleLevel = response.data;
-            			RuleService.addLevelReward(levelReward)
-            			.then(function success(response)
-            			{
-            				$rootScope.alert('Regra de nível adicionada com sucesso!');
-            			},
-            			function error(response)
-            			{
-            				$rootScope.alert('Error adding rule!');
-            			});
+            			RuleService.addLevelReward(levelReward);            			
             		});
             	});
         	});
+        	
+        	$rootScope.alert('Regra de nível adicionada com sucesso!');
         },
         function error(response) 
         {
@@ -76,8 +74,8 @@ app.controller('newRuleLevelController', [ '$scope', '$rootScope', '$timeout', '
     
     $scope.addLevelReward = function () {
     	$scope.levelRewards.push({});
-    }
-    
+    }  
+   
     //EDIÇÃO	
     if(typeof $routeParams.idRuleLevel != 'undefined') {
     	
@@ -100,7 +98,8 @@ app.controller('newRuleLevelController', [ '$scope', '$rootScope', '$timeout', '
         .then (function success(response) {
         	console.log(response);
         	console.log('bbbbbbbbbbbbbbbbbbbbb');
-        	$scope.levelRewards = response.data;
+        	if(response.data)
+        		$scope.levelRewards = response.data;
         },
         function error(response) {
          	$rootScope.alert('Error!');

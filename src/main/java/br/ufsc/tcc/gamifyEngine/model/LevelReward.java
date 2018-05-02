@@ -32,11 +32,11 @@ public class LevelReward {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@MapsId("attribute")	
+//	@MapsId("attribute")	
 	@ManyToOne
 	private Attribute attribute;
 	
-	@MapsId("ruleLevel")	
+//	@MapsId("ruleLevel")	
 	@ManyToOne
 	private RuleLevel ruleLevel;
 	

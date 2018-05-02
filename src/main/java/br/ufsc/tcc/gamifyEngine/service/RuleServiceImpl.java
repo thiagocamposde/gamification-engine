@@ -184,6 +184,7 @@ public class RuleServiceImpl implements RuleService{
 									this.attributesChanges.add(new FeedbackAttributes(attribute.getAttribute(), amount));
 								}
 							});
+					
 					this.evaluate("attribute", user, levelReward.getAttribute());
 				}
 				break;
@@ -347,13 +348,14 @@ public class RuleServiceImpl implements RuleService{
 			if(rule.getXp() != 0) {
 				user.setXp(user.getXp() + rule.getXp());
 				user.setCurrentXp(user.getCurrentXp() + rule.getXp());
+				this.evaluate("xp", user, null);
 				
 				xpChanges.setXpChanged(true);
 				xpChanges.setAmountChanged(rule.getXp());
 				xpChanges.setUserTotalXp(user.getXp());
 				xpChanges.setUserNewCurrentXp(user.getCurrentXp());
 				
-				this.evaluate("xp", user, null);
+				
 				
 			}
 
