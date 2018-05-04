@@ -1,5 +1,8 @@
 package br.ufsc.tcc.gamifyEngine.dao;
 
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,5 +17,8 @@ public interface RuleDao extends CrudRepository<Rule, Integer> {
    * automagically generated from its signature by Spring Data JPA.
    */
   public Rule findById(int ruleId);
+  
+  @Query(value="select * from rule r where r.type = ?1", nativeQuery=true)
+  public List<Rule> findRuleByType(String type);
 
 }

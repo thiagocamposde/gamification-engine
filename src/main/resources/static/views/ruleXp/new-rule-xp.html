@@ -1,0 +1,39 @@
+<div class="container">
+
+	<div class="alert alert-success" ng-show="showAlert">{{alertMessage}}</div>
+	<form>
+		<div class="form-group">
+			<label for="ruleName">Nome:</label>
+			<input type="text" ng-model="rule.name" class="form-control" id="ruleName" placeholder="Nome"> 
+		</div>
+				
+		
+		<div class="form-group">
+			<label for="ruleXpReward">Recompensa em XP:</label>
+			<input ng-model="rule.xp" type="number" class="form-control" id="ruleXpReward" placeholder="Ex.: 100">
+		</div>
+		
+		
+		<div class="form-group">
+			<label for="ruleTimeToComplete">Vezes para completar:</label>
+			<input ng-model="rule.timesToComplete" type="number" class="form-control" id="ruleTimeToComplete" placeholder="Ex.: 10">
+		</div>
+		
+		<div class="checkbox">
+			<label> 
+				<input ng-model="rule.repeatable" type="checkbox" ng-selected="true"> Regra cíclica? 
+			</label>
+		</div>
+		
+		<div class="checkbox">
+			<label> 
+				<input ng-model="rule.active" type="checkbox" ng-selected="true"> Ativar? 
+			</label>
+		</div>
+		
+		<br>
+		
+		<button type="submit" class="btn btn-success" ng-click="saveRule()">Salvar</button>
+		
+	</form>
+</div>

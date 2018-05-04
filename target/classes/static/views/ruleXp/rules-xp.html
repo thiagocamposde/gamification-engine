@@ -1,0 +1,47 @@
+<div class="container">
+	<div class="alert alert-success" ng-show="showAlert">{{alertMessage}}</div>
+	<a href="#/regras-xp/novo" type="button" class="btn btn-primary pull-right">Nova regra de experiência</a>
+	<table ng-table="rulesTableParams" class="table" show-filter="false">
+	    <tr ng-repeat="rule in $data">
+	    	
+	       <td title="'ID'" filter="" sortable="''">
+	            {{rule.id}}
+	        </td>
+	        
+	        <td title="'Regra'" filter="{ name: 'text'}" sortable="''">
+	            {{rule.name}}
+	        </td>   
+	        
+	        <td title="'ativo'" filter="" sortable="''">
+	            {{rule.active}}
+	        </td>	        
+	        
+	        <td title="'ocorrências necessárias'" filter="" sortable="''">
+	            {{rule.timesToComplete}}
+	        </td>
+	        
+	        <td title="'Cíclica'" filter="" sortable="''">
+	            {{rule.repeatable}}
+	        </td>
+	        
+	        <td title="'recompensa em experiência'" filter="" sortable="''">
+	            {{rule.xp}}
+	        </td>
+      
+	        
+	        <td>
+				<div class="dropdown">
+					<button class="btn btn-default dropdown-toggle" type="button"
+						id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="true">
+						opções <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						<li><a ng-click="deleteRule(rule.id)" href="">Excluir</a></li>
+						<li><a ng-click="" href="#/regras-xp/{{rule.id}}">Editar</a></li>
+					</ul>
+				</div>
+			</td>
+	    </tr>
+	</table>
+</div>

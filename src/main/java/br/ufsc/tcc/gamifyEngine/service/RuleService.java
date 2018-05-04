@@ -49,6 +49,7 @@ public interface RuleService {
 	
 	public Map<String, Object> processRule(int userId, int ruleId);
 	public Iterable<LevelReward> getLevelRewardsByRuleLevel(int idRuleLevel);
+	public List<Rule> getRuleByType(String type);
 	
 	
 	

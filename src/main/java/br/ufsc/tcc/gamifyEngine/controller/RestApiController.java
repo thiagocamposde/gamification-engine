@@ -314,6 +314,17 @@ public class RestApiController {
 		return new ResponseEntity<>(rule, HttpStatus.OK);
 	}
 	
+	
+	@RequestMapping(value = "/rules/type/{type}", method = RequestMethod.GET)
+	public ResponseEntity<?> getRuleByType(@PathVariable String type) {
+		List<Rule> rule = ruleService.getRuleByType(type);
+
+		if (rule == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(rule, HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/rules/", method = RequestMethod.POST)
 	public ResponseEntity<?> postRule(@RequestBody Rule rule) {
 		

@@ -73,6 +73,18 @@ app.config(function($routeProvider){
             templateUrl: '/views/ruleLevel/new-rule-level.html',
             controller: 'newRuleLevelController'
         })
+        .when('/regras-xp',{
+            templateUrl: '/views/ruleXp/rules-xp.html',
+            controller: 'ruleXpController'
+        })
+        .when('/regras-xp/novo',{
+            templateUrl: '/views/ruleXp/new-rule-xp.html',
+            controller: 'newRuleXpController'
+        })
+        .when('/regras-xp/:idRule',{
+            templateUrl: '/views/ruleXp/new-rule-xp.html',
+            controller: 'newRuleXpController'
+        })
         .otherwise(
             { redirectTo: '/'}
         );
@@ -326,5 +338,14 @@ app.service('RuleService', [ '$http', function($http) {
             method : 'GET',
             url : 'api/level/rewards/rules/' + idRuleLevel
         });
-    }    
+    
+    } 
+    
+    this.findAllXpRules = function findAllXpRules(idRule) {
+        return $http({
+            method : 'GET',
+            url : 'api/rules/type/'+ 'xp'
+        });
+    } 
+    
 } ]);

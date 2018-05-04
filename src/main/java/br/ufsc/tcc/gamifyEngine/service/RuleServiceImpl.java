@@ -388,6 +388,11 @@ public class RuleServiceImpl implements RuleService{
 		return response;
 	}
 
+	@Override
+	public List<Rule> getRuleByType(String type) {
+		return this.ruleDao.findRuleByType(type);		
+	}
+
 //	@Override
 //	public LevelReward getLevelReward(int levelRewardId) {
 //		return levelRewardDao.findById(levelRewardId);
