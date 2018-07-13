@@ -1,8 +1,10 @@
 <div class="container">
 
 	<div class="alert alert-success" ng-show="showAlert">{{alertMessage}}</div>
+	
+	<h2>Nova regra de insígnia</h2>
 	<form>
-		{{rule}}
+		
 		<div class="form-group">
 			<label for="ruleName">Nome da regra</label>
 			<input type="text" ng-model="rule.name" class="form-control" id="ruleName" placeholder="Nome"> 
@@ -11,9 +13,8 @@
 		<div class="form-group">
 			<label for="ruleXpReward">Recompensa em XP</label>
 			<input ng-model="rule.xp" type="number" class="form-control" id="ruleXpReward" placeholder="Ex.: 100">
-		</div>
+		</div>		
 		
-		{{ruleBadges}}		
 		<div id="ruleBadgesContainer" ng-repeat="rb in ruleBadges">
 			<div class="form-group">
 				<label for="ruleBadge"> Insígnia a ser recompensada: </label><br>
@@ -36,7 +37,7 @@
 			<label for="ruleTimeToComplete">Ocorrências necessárias do evento para recompensa </label>
 			<input ng-model="rule.timesToComplete" type="number" class="form-control" id="ruleTimeToComplete" placeholder="Ex.: 10">
 		</div>
-		{{selectedAttribute}}
+		
 		<div id="badgeAttributeWrapper" ng-show="rule.type == 'badgeAttribute'">
 			<div class="form-group">
 				<label for="ruleAttribute"> Atributo: </label><br>

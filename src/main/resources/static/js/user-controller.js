@@ -29,7 +29,7 @@ app.controller('usersController', [ '$scope', '$rootScope', '$timeout', 'UserSer
 }]);
 
 app.controller('newUserController', [ '$scope', '$rootScope', '$timeout', 'UserService', function($scope, $rootScope, $timeout, UserService,) {
-    $scope.user = {level:0, current_xp:0, xp:0, active:true};
+    $scope.user = {level:1, current_xp:0, xp:0, active:true};
    
     $scope.saveUser = function () {
     	UserService.addUser($scope.user)
